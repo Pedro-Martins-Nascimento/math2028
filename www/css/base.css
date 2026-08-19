@@ -1,0 +1,116 @@
+:root {
+  --color-bg: #faf8ef;
+  --color-text: #776e65;
+  --color-primary: #8f7a66;
+  --color-primary-dark: #6b5b4f;
+  --color-accent: #edc22e;
+  --font-main: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  --radius-md: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+#app {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.hud {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-sm) 0 var(--spacing-md);
+}
+
+.hud__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin: 0;
+  flex: 1;
+}
+
+.hud__score {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: center;
+  min-width: 72px;
+}
+
+.hud__score-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.hud__score-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.hud__user {
+  font-size: 13px;
+  color: var(--color-primary-dark);
+}
+
+.hud--frozen .hud__score {
+  opacity: 0.6;
+}
+
+.btn {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn--secondary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn--secondary:active {
+  background: var(--color-primary-dark);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.footer {
+  text-align: center;
+  color: var(--color-primary);
+  font-size: 13px;
+  padding-top: var(--spacing-md);
+}

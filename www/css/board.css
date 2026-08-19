@@ -1,0 +1,61 @@
+.board-container {
+  display: flex;
+  justify-content: center;
+  touch-action: none;
+}
+
+.board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 1 / 1;
+  background: #bbada0;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.cell {
+  background: rgba(238, 228, 218, 0.35);
+  border-radius: 4px;
+}
+
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: clamp(16px, 5vw, 32px);
+  color: #776e65;
+  background: #eee4da;
+  transition: transform 100ms ease-in-out;
+  will-change: transform;
+}
+
+.tile[data-value="2"] { background: #eee4da; }
+.tile[data-value="4"] { background: #ede0c8; }
+.tile[data-value="8"] { background: #f2b179; color: #f9f6f2; }
+.tile[data-value="16"] { background: #f59563; color: #f9f6f2; }
+.tile[data-value="32"] { background: #f67c5f; color: #f9f6f2; }
+.tile[data-value="64"] { background: #f65e3b; color: #f9f6f2; }
+.tile[data-value="128"] { background: #edcf72; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
+.tile[data-value="256"] { background: #edcc61; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
+.tile[data-value="512"] { background: #edc850; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
+.tile[data-value="1024"] { background: #edc53f; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
+.tile[data-value="2048"] { background: #edc22e; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
+
+/* Modo infinito (pós-2048): sem essas regras, blocos de 4096 em diante
+   caem no estilo base do .tile (cor do bloco "2", a mais clara), o que
+   parece quebrado numa partida avançada. */
+.tile[data-value="4096"] { background: #3c3a32; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
+.tile[data-value="8192"] { background: #3c3a32; color: #f9f6f2; font-size: clamp(11px, 3.4vw, 20px); }
+
+/* Fallback genérico para qualquer valor além de 8192 — o modo infinito
+   não tem teto, então isso evita qualquer bloco futuro ficar sem estilo. */
+.tile { background: #3c3a32; color: #f9f6f2; }
+.tile[data-value="2"], .tile[data-value="4"] { color: #776e65; }

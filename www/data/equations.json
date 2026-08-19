@@ -1,0 +1,30 @@
+{
+  "16": [
+    { "id": "16-01", "question": "7 + 8 = ?", "answer": 15 },
+    { "id": "16-02", "question": "12 - 4 = ?", "answer": 8 },
+    { "id": "16-03", "question": "3 x 4 = ?", "answer": 12 },
+    { "id": "16-04", "question": "20 - 9 = ?", "answer": 11 },
+    { "id": "16-05", "question": "6 + 6 = ?", "answer": 12 }
+  ],
+  "64": [
+    { "id": "64-01", "question": "9 x 6 = ?", "answer": 54 },
+    { "id": "64-02", "question": "100 - 37 = ?", "answer": 63 },
+    { "id": "64-03", "question": "48 / 4 = ?", "answer": 12 },
+    { "id": "64-04", "question": "7 x 7 = ?", "answer": 49 },
+    { "id": "64-05", "question": "81 - 25 = ?", "answer": 56 }
+  ],
+  "256": [
+    { "id": "256-01", "question": "15 x 12 = ?", "answer": 180 },
+    { "id": "256-02", "question": "500 - 235 = ?", "answer": 265 },
+    { "id": "256-03", "question": "13 x 13 = ?", "answer": 169 },
+    { "id": "256-04", "question": "864 / 8 = ?", "answer": 108 },
+    { "id": "256-05", "question": "19 x 11 = ?", "answer": 209 }
+  ],
+  "1024": [
+    { "id": "1024-01", "question": "23 x 17 = ?", "answer": 391 },
+    { "id": "1024-02", "question": "1000 + 456 - 213 = ?", "answer": 1243 },
+    { "id": "1024-03", "question": "31 x 21 = ?", "answer": 651 },
+    { "id": "1024-04", "question": "2048 / 16 = ?", "answer": 128 },
+    { "id": "1024-05", "question": "45 x 19 = ?", "answer": 855 }
+  ]
+}

@@ -1,5 +1,10 @@
 node_modules/
+coverage/
 www/dist/
 www/js/config/supabaseConfig.js
-.env
+platforms/
+plugins/
+www/js/config/secrets.js
 *.log
+.DS_Store
+dist/

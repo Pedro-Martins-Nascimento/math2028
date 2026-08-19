@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.math2048.app" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Math2048</name>
+    <description>
+        Jogo 2048 com desafios matemáticos obrigatórios e ranking global.
+    </description>
+    <author email="team@math2048.app" href="https://math2048.app">
+        Math2048 Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
+    <!-- O app empacotado (Cordova/Android) fica travado em retrato. Os
+         breakpoints de paisagem em www/css/responsive.css continuam úteis
+         para quem abre www/index.html direto no navegador/desktop, onde
+         não há esse travamento. -->
+    <!-- Ícones/splash reais ainda não foram fornecidos — ver res/README.md.
+         Nenhuma preferência aqui referencia um arquivo que não existe;
+         adicionar <icon>/<splash> só depois de incluir os PNGs em res/. -->
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="AndroidLaunchMode" value="singleTop" />
+        <preference name="android-minSdkVersion" value="24" />
+        <preference name="android-targetSdkVersion" value="34" />
+    </platform>
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.5" />
+</widget>

@@ -1,0 +1,92 @@
+/* Telas muito pequenas (ex.: Android antigo, iPhone SE) */
+@media (max-width: 360px) {
+  .hud {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-sm);
+  }
+
+  .hud__title {
+    font-size: 20px;
+    flex: 1 1 auto;
+  }
+
+  .hud__score {
+    min-width: 56px;
+    padding: 6px 8px;
+  }
+
+  .hud__score-value {
+    font-size: 16px;
+  }
+
+  .btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  #app {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Faixa intermediária (a maioria dos celulares em retrato) */
+@media (min-width: 361px) and (max-width: 480px) {
+  .hud {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-sm);
+  }
+
+  .btn {
+    padding: 9px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Tablets e desktops */
+@media (min-width: 700px) {
+  #app {
+    max-width: 600px;
+  }
+
+  .board {
+    max-width: 520px;
+  }
+}
+
+/* Telas grandes: evita que o tabuleiro fique desproporcional */
+@media (min-width: 1000px) {
+  #app {
+    max-width: 640px;
+  }
+}
+
+/* Paisagem em telas baixas (celular deitado): prioriza altura disponível
+   para o tabuleiro em vez de largura máxima. */
+@media (max-height: 480px) and (orientation: landscape) {
+  #app {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+
+  .hud {
+    padding: 4px 0;
+  }
+
+  .board-container {
+    max-height: 80vh;
+  }
+
+  .board {
+    max-width: 80vh;
+    max-height: 80vh;
+    margin: 0 auto;
+  }
+}
+
+/* Respeita a preferência do sistema por menos movimento (acessibilidade e
+   também reduz custo de repaint em dispositivos mais fracos). */
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none;
+  }
+}
