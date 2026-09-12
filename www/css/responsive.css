@@ -10,12 +10,12 @@
     flex: 1 1 auto;
   }
 
-  .hud__score {
+  .hud__stat {
     min-width: 56px;
     padding: 6px 8px;
   }
 
-  .hud__score-value {
+  .hud__stat-value {
     font-size: 16px;
   }
 

@@ -29,4 +29,14 @@ function renderHudUser(hudUserEl, userLabel) {
   hudUserEl.textContent = userLabel;
 }
 
-module.exports = { FROZEN_CLASS, setHudFrozen, renderHudUser };
+/**
+ * Atualiza o valor de Recorde exibido no HUD, ao lado de Pontos (mockup
+ * da tela principal do GDD/WDD).
+ * @param {HTMLElement} recordEl
+ * @param {number} record
+ */
+function renderHudRecord(recordEl, record) {
+  recordEl.textContent = String(record);
+}
+
+module.exports = { FROZEN_CLASS, setHudFrozen, renderHudUser, renderHudRecord };

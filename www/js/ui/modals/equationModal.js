@@ -19,21 +19,23 @@ const { t } = require('../../i18n/i18n');
  */
 function renderEquationModal(modalEl, { equation, trigger, onCorrect, onIncorrect }) {
   modalEl.innerHTML = `
-    <div class="modal__card">
-      <h2 class="modal__title">${t('equation.titlePrefix')} ${trigger}${t('equation.titleSuffix')}</h2>
-      <p class="modal__text">${equation.question}</p>
+    <div class="modal__card modal__card--gatekeeper">
+      <h2 class="modal__title">${t('equation.title')}</h2>
+      <p class="modal__subtitle">${t('equation.subtitlePrefix')} ${trigger} ${t('equation.subtitleSuffix')}</p>
+      <p class="modal__equation">${equation.question}</p>
+      <label class="modal__input-label" for="equation-answer-input">${t('equation.inputLabel')}</label>
       <input
         id="equation-answer-input"
         class="modal__input"
         type="text"
         inputmode="numeric"
         autocomplete="off"
-        aria-label="Resposta"
       />
       <p id="equation-error" class="modal__error" role="alert"></p>
       <div class="modal__actions">
         <button id="equation-submit" class="btn btn--secondary">${t('equation.btnSubmit')}</button>
       </div>
+      <p class="modal__warning">${t('equation.warning')}</p>
     </div>
   `;
   modalEl.hidden = false;

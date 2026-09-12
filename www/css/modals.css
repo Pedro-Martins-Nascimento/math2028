@@ -1,7 +1,7 @@
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(238, 228, 218, 0.9);
+  background: rgba(43, 45, 66, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,6 +33,47 @@
 .modal__text {
   margin: 0 0 var(--spacing-md);
   font-size: 14px;
+}
+
+.modal__subtitle {
+  margin: 0 0 var(--spacing-md);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.modal__equation {
+  margin: 0 0 var(--spacing-md);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.modal__input-label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.modal__warning {
+  margin: var(--spacing-sm) 0 0;
+  font-size: 12px;
+  color: var(--color-primary);
+  opacity: 0.85;
+}
+
+.modal__quote {
+  margin: var(--spacing-md) 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+.modal__card--gatekeeper {
+  border-top: 4px solid var(--color-accent);
 }
 
 .modal__input {

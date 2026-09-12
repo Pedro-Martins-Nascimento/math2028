@@ -14,9 +14,15 @@
   <div id="app">
     <header id="hud" class="hud">
       <h1 class="hud__title" data-i18n="hud.title">Math2048</h1>
-      <div class="hud__score">
-        <span class="hud__score-label" data-i18n="hud.scoreLabel">Pontos</span>
-        <span id="score-value" class="hud__score-value">0</span>
+      <div class="hud__stats">
+        <div class="hud__stat">
+          <span class="hud__stat-label" data-i18n="hud.scoreLabel">Pontos</span>
+          <span id="score-value" class="hud__stat-value">0</span>
+        </div>
+        <div class="hud__stat hud__stat--record">
+          <span class="hud__stat-label" data-i18n="hud.recordLabel">Recorde</span>
+          <span id="record-value" class="hud__stat-value">0</span>
+        </div>
       </div>
       <div id="hud-user" class="hud__user" hidden></div>
       <button id="leaderboard-btn" class="btn btn--secondary" data-i18n="hud.btnRanking">Ranking</button>
@@ -29,7 +35,7 @@
     </main>
 
     <footer class="footer">
-      <p data-i18n="footer.hint">Junte os blocos e resolva as equações para avançar.</p>
+      <p data-i18n="footer.hint">Junte os números e chegue ao bloco 2048! Use as setas ou deslize para mover os blocos.</p>
     </footer>
   </div>
 

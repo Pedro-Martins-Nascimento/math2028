@@ -13,13 +13,13 @@
   width: 100%;
   max-width: 460px;
   aspect-ratio: 1 / 1;
-  background: #bbada0;
+  background: #2b2d42;
   border-radius: 8px;
   padding: 10px;
 }
 
 .cell {
-  background: rgba(238, 228, 218, 0.35);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 4px;
 }
 
@@ -31,31 +31,57 @@
   border-radius: 4px;
   font-weight: 700;
   font-size: clamp(16px, 5vw, 32px);
-  color: #776e65;
-  background: #eee4da;
+  color: #2b2d42;
+  background: #eaf6ff;
   transition: transform 100ms ease-in-out;
   will-change: transform;
 }
 
-.tile[data-value="2"] { background: #eee4da; }
-.tile[data-value="4"] { background: #ede0c8; }
-.tile[data-value="8"] { background: #f2b179; color: #f9f6f2; }
-.tile[data-value="16"] { background: #f59563; color: #f9f6f2; }
-.tile[data-value="32"] { background: #f67c5f; color: #f9f6f2; }
-.tile[data-value="64"] { background: #f65e3b; color: #f9f6f2; }
-.tile[data-value="128"] { background: #edcf72; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
-.tile[data-value="256"] { background: #edcc61; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
-.tile[data-value="512"] { background: #edc850; color: #f9f6f2; font-size: clamp(14px, 4.4vw, 28px); }
-.tile[data-value="1024"] { background: #edc53f; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
-.tile[data-value="2048"] { background: #edc22e; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
+/* Blocos baixos (2, 4, 8) — tons pastel suaves, o "Estado Fluido" inicial
+   do tabuleiro (WDD seção 8). */
+.tile[data-value="2"] { background: #eaf6ff; }
+.tile[data-value="4"] { background: #e4dbff; }
+.tile[data-value="8"] { background: #ffe1cc; }
 
-/* Modo infinito (pós-2048): sem essas regras, blocos de 4096 em diante
-   caem no estilo base do .tile (cor do bloco "2", a mais clara), o que
-   parece quebrado numa partida avançada. */
-.tile[data-value="4096"] { background: #3c3a32; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
-.tile[data-value="8192"] { background: #3c3a32; color: #f9f6f2; font-size: clamp(11px, 3.4vw, 20px); }
+/* Blocos médios (16, 64, 128) — cores quentes e vibrantes; 64 em
+   vermelho conforme o mockup de referência do GDD. */
+.tile[data-value="16"] { background: #ff9f43; }
+.tile[data-value="32"] { background: #ff7f50; }
+.tile[data-value="64"] { background: #e74c3c; color: #f9f6f2; }
+.tile[data-value="128"] { background: #f4a100; }
+
+/* Blocos altos (256, 1024, 2048) — tons dourados/brilhantes, os
+   "Portais de Gatekeeping" finais e a Ascensão. */
+.tile[data-value="256"] { background: #f1c40f; font-size: clamp(14px, 4.4vw, 28px); }
+.tile[data-value="512"] { background: #ffd700; font-size: clamp(14px, 4.4vw, 28px); }
+.tile[data-value="1024"] {
+  background: #ffc300;
+  font-size: clamp(12px, 3.8vw, 24px);
+  box-shadow: 0 0 14px rgba(255, 195, 0, 0.6);
+}
+.tile[data-value="2048"] {
+  background: #fff8dc;
+  border: 2px solid #ffc300;
+  font-size: clamp(12px, 3.8vw, 24px);
+  box-shadow: 0 0 20px rgba(255, 195, 0, 0.8);
+}
+
+/* Modo infinito (pós-2048): universo numérico sem teto, tratado como um
+   bioma à parte (Ascensão) em vez de reaproveitar a cor do bloco "2" (o
+   que pareceria quebrado numa partida avançada). */
+.tile[data-value="4096"] { background: #1b1d3a; color: #f9f6f2; font-size: clamp(12px, 3.8vw, 24px); }
+.tile[data-value="8192"] { background: #1b1d3a; color: #f9f6f2; font-size: clamp(11px, 3.4vw, 20px); }
 
 /* Fallback genérico para qualquer valor além de 8192 — o modo infinito
    não tem teto, então isso evita qualquer bloco futuro ficar sem estilo. */
-.tile { background: #3c3a32; color: #f9f6f2; }
-.tile[data-value="2"], .tile[data-value="4"] { color: #776e65; }
+.tile { background: #1b1d3a; color: #f9f6f2; }
+.tile[data-value="2"],
+.tile[data-value="4"],
+.tile[data-value="8"],
+.tile[data-value="16"],
+.tile[data-value="32"],
+.tile[data-value="128"],
+.tile[data-value="256"],
+.tile[data-value="512"],
+.tile[data-value="1024"],
+.tile[data-value="2048"] { color: #2b2d42; }

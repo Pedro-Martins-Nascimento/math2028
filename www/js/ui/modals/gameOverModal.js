@@ -13,6 +13,7 @@ function renderGameOverModal(modalEl, { score, onRestart }) {
       <div class="modal__actions">
         <button id="game-over-restart" class="btn btn--secondary">${t('gameOver.btnRestart')}</button>
       </div>
+      <p class="modal__quote">${t('gameOver.quote')}</p>
     </div>
   `;
   modalEl.hidden = false;

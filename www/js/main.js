@@ -13,8 +13,9 @@ const { renderBoard, renderScore } = require('./ui/boardRenderer');
 const { renderGameOverModal, hideGameOverModal } = require('./ui/modals/gameOverModal');
 const { renderWinModal, hideWinModal } = require('./ui/modals/winModal');
 const { renderEquationModal, hideEquationModal } = require('./ui/modals/equationModal');
-const { setHudFrozen, renderHudUser } = require('./ui/hud');
+const { setHudFrozen, renderHudUser, renderHudRecord } = require('./ui/hud');
 const { saveSession, loadSession, clearSession } = require('./storage/localSession');
+const { updateHighScore } = require('./storage/highScore');
 const { renderAuthScreen, hideAuthScreen } = require('./ui/screens/authScreen');
 const { renderLeaderboardScreen } = require('./ui/screens/leaderboardScreen');
 const { getCurrentUser, logout } = require('./auth/session');
@@ -36,6 +37,7 @@ function initGame() {
   const boardEl = document.getElementById('board');
   const boardContainerEl = document.getElementById('board-container');
   const scoreEl = document.getElementById('score-value');
+  const recordEl = document.getElementById('record-value');
   const hudEl = document.getElementById('hud');
   const hudUserEl = document.getElementById('hud-user');
   const newGameBtn = document.getElementById('new-game-btn');
@@ -80,6 +82,7 @@ function initGame() {
   function render() {
     renderBoard(boardEl, state.board);
     renderScore(scoreEl, state.score);
+    renderHudRecord(recordEl, updateHighScore(state.score));
     setHudFrozen(hudEl, state.status === 'challenge');
     leaderboardBtn.disabled = state.status === 'challenge';
     authBtn.disabled = state.status === 'challenge';
