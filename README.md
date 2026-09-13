@@ -4,6 +4,13 @@ Jogo 2048 com desafios matemáticos obrigatórios ("Gatekeeper" — equações d
 1º grau reais) nos blocos 16, 64, 256 e 1024, ranking global via Supabase,
 empacotado com Apache Cordova.
 
+**Disciplina:** Projeto de Aprendizagem Colaborativa Extensionista III/IV —
+Engenharia de Software, Católica de Santa Catarina, Jaraguá do Sul.
+**Orientação:** Prof. Andrei Carniel.
+
+**Integrantes:** Felipe Vieira, Júlia Paz e Silva, Klaus Christoph Emmerich
+Jourdain, Lucas Montimór Soares Barra, Pedro Martins do Nascimento.
+
 ## Como rodar (rápido)
 
 ```bash
