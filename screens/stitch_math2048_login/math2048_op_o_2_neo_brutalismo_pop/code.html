@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&amp;family=Fredoka:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+    .neo-shadow {
+        box-shadow: 4px 4px 0px #000000;
+    }
+    .neo-shadow-sm {
+        box-shadow: 2px 2px 0px #000000;
+    }
+    .neo-shadow-lg {
+        box-shadow: 6px 6px 0px #000000;
+    }
+    .neo-shadow-yellow {
+        box-shadow: 4px 4px 0px #FFE600;
+    }
+    .neo-shadow-pink {
+        box-shadow: 4px 4px 0px #FF4B91;
+    }
+    .btn-press:active {
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0px #000000;
+    }
+    .tile-pop {
+        animation: tileBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes tileBounce {
+        0% { transform: scale(0.85); }
+        60% { transform: scale(1.08); }
+        100% { transform: scale(1); }
+    }
+    .pulse-glow {
+        animation: pulseSubtle 2s infinite alternate;
+    }
+    @keyframes pulseSubtle {
+        from { transform: scale(1); }
+        to { transform: scale(1.03); }
+    }
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        min-height: max(884px, 100dvh);
+    }
+    .font-arcade {
+        font-family: 'Fredoka', cursive, sans-serif;
+    }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "neo-bg": "#1a102f",
+                    "neo-board": "#2b1b4d",
+                    "neo-cell": "#3d2a6b",
+                    "neo-yellow": "#FFE600",
+                    "neo-cyan": "#00F0FF",
+                    "neo-pink": "#FF3385",
+                    "neo-green": "#39FF88",
+                    "neo-orange": "#FF7A00",
+                    "neo-purple": "#8A3FFC"
+                }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-[#18122B] text-white min-h-screen flex flex-col no-scrollbar selection:bg-[#FFE600] selection:text-black">
+<!-- Neo-Brutalist Arcade Top Header -->
+<header class="bg-[#251842] border-b-4 border-black px-4 py-3 flex justify-between items-center w-full z-40 sticky top-0">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-2xl bg-[#FFE600] border-3 border-black neo-shadow-sm flex items-center justify-center text-black font-extrabold text-xl font-arcade">
+            ⚡
+        </div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-arcade text-2xl font-black tracking-wider text-[#00F0FF] drop-shadow-[2px_2px_0px_#000]">MATH2048</span>
+<span class="bg-[#FF3385] text-white border-2 border-black text-[10px] font-black px-1.5 py-0.5 rounded-md transform rotate-[-4deg] neo-shadow-sm">ARCADE</span>
+</div>
+<span class="text-xs font-bold text-[#E5B8F4] flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#39FF88] inline-block animate-pulse"></span> Jogador #1 • Nível 4
+            </span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Estatísticas" class="w-10 h-10 rounded-xl bg-[#8A3FFC] border-2 border-black neo-shadow-sm flex items-center justify-center text-white btn-press transition-transform">
+<span class="material-symbols-outlined text-[20px]">equalizer</span>
+</button>
+<button aria-label="Configurações" class="w-10 h-10 rounded-xl bg-[#39FF88] border-2 border-black neo-shadow-sm flex items-center justify-center text-black btn-press transition-transform">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Game Stage Area -->
+<main class="flex-grow flex flex-col items-center justify-center px-4 py-4 max-w-[460px] mx-auto w-full pb-24">
+<!-- Streak & Multiplier Pill Banner -->
+<div class="w-full flex items-center justify-between bg-[#381f68] border-3 border-black rounded-2xl px-4 py-2 mb-4 neo-shadow">
+<div class="flex items-center gap-2">
+<span class="bg-[#FF7A00] text-black font-black text-xs px-2 py-0.5 rounded-lg border-2 border-black font-arcade">COMBO</span>
+<span class="text-xs font-extrabold text-[#FFE600] tracking-wide">3x Sequência Matemática!</span>
+</div>
+<div class="flex items-center gap-1 text-[#00F0FF] font-black text-xs font-arcade">
+<span>MULTIPLIER</span>
+<span class="text-base font-black text-[#39FF88]">x2.5</span>
+</div>
+</div>
+<!-- HUD Arcade Score Cards & Action Bar -->
+<div class="w-full mb-4 flex flex-col gap-3">
+<div class="grid grid-cols-2 gap-3">
+<!-- Current Score Card -->
+<div class="bg-[#FFE600] text-black border-3 border-black rounded-2xl p-3 flex flex-col items-center neo-shadow relative overflow-hidden">
+<div class="absolute -right-2 -top-2 opacity-15 rotate-12 text-black font-arcade font-black text-4xl">PTS</div>
+<span class="text-[11px] font-black tracking-widest uppercase bg-black text-white px-2 py-0.5 rounded-full border border-black mb-1">Pontos</span>
+<span class="font-arcade text-3xl font-extrabold tracking-tight" id="current-score">2.448</span>
+</div>
+<!-- Best Record Card -->
+<div class="bg-[#FF3385] text-white border-3 border-black rounded-2xl p-3 flex flex-col items-center neo-shadow relative overflow-hidden">
+<div class="absolute -right-2 -top-2 opacity-20 rotate-12 text-black font-arcade font-black text-4xl">MAX</div>
+<span class="text-[11px] font-black tracking-widest uppercase bg-black text-[#FFE600] px-2 py-0.5 rounded-full border border-black mb-1">Recorde</span>
+<span class="font-arcade text-3xl font-extrabold tracking-tight text-white drop-shadow-[2px_2px_0px_#000]">12.850</span>
+</div>
+</div>
+<!-- Action Row (Undo & New Game) -->
+<div class="flex items-center gap-3">
+<button class="bg-[#2c1a52] text-[#E5B8F4] hover:text-white border-3 border-black px-4 py-2.5 rounded-2xl font-black text-xs neo-shadow-sm flex items-center justify-center gap-1.5 btn-press transition-all flex-1">
+<span class="material-symbols-outlined text-[18px]">undo</span>
+<span>VOLTAR</span>
+</button>
+<button class="bg-[#00F0FF] hover:bg-[#39FF88] text-black border-3 border-black px-5 py-2.5 rounded-2xl font-arcade font-black text-sm tracking-wide neo-shadow flex items-center justify-center gap-2 btn-press transition-all flex-[2]" onclick="resetGame()">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+<span>NOVO JOGO</span>
+</button>
+</div>
+</div>
+<!-- 4x4 Neo-Brutal Arcade Grid Board -->
+<div class="relative bg-[#251545] border-4 border-black p-3.5 rounded-3xl neo-shadow-lg w-full max-w-[370px] sm:max-w-[400px] aspect-square flex items-center justify-center">
+<!-- Recessed Grid Slots -->
+<div class="grid grid-cols-4 grid-rows-4 gap-3 w-full h-full">
+<!-- Row 1 -->
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<!-- Row 2 -->
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<!-- Row 3 -->
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<!-- Row 4 -->
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+<div class="bg-[#1a0c33] border-2 border-[#3d246c] rounded-xl"></div>
+</div>
+<!-- Overlaid Interactive Tiles (Juicy Pop Colors & Neo Borders) -->
+<div class="absolute inset-3.5 grid grid-cols-4 grid-rows-4 gap-3 pointer-events-none">
+<!-- Tile 2: Mint Pastel Pop -->
+<div class="col-start-1 row-start-1 bg-[#A8FFD6] text-black border-3 border-black rounded-xl flex items-center justify-center neo-shadow-sm tile-pop">
+<span class="font-arcade text-3xl font-black">2</span>
+</div>
+<!-- Tile 4: Bubblegum Lemon Cream -->
+<div class="col-start-2 row-start-1 bg-[#FFF490] text-black border-3 border-black rounded-xl flex items-center justify-center neo-shadow-sm tile-pop">
+<span class="font-arcade text-3xl font-black">4</span>
+</div>
+<!-- Tile 8: Punchy Creamsicle Peach -->
+<div class="col-start-3 row-start-1 bg-[#FFB37C] text-black border-3 border-black rounded-xl flex items-center justify-center neo-shadow-sm tile-pop">
+<span class="font-arcade text-3xl font-black">8</span>
+</div>
+<!-- Tile 64: Hot Strawberry Flame -->
+<div class="col-start-1 row-start-2 bg-[#FF3366] text-white border-3 border-black rounded-xl flex items-center justify-center neo-shadow-sm tile-pop">
+<span class="font-arcade text-3xl font-black drop-shadow-[2px_2px_0px_#000]">64</span>
+</div>
+<!-- Tile 256: Ultra Golden Sparkle Badge -->
+<div class="col-start-4 row-start-3 bg-[#FFE600] text-black border-3 border-black rounded-xl flex flex-col items-center justify-center neo-shadow-sm tile-pop relative overflow-hidden">
+<span class="absolute top-1 right-1 text-[11px] leading-none">✨</span>
+<span class="font-arcade text-2xl font-black">256</span>
+<span class="text-[9px] font-black uppercase tracking-wider bg-black text-[#FFE600] px-1 rounded-sm -mt-0.5">GOLD</span>
+</div>
+<!-- Tile 1024: Neon Amber / Sunshine Master Tile -->
+<div class="col-start-2 row-start-4 bg-[#FF9F00] text-black border-3 border-black rounded-xl flex flex-col items-center justify-center neo-shadow-sm tile-pop pulse-glow relative overflow-hidden">
+<div class="absolute inset-x-0 top-0 h-1 bg-[#FFF490] opacity-80"></div>
+<span class="absolute top-1 left-1.5 text-[10px] leading-none">⭐</span>
+<span class="font-arcade text-[22px] font-black tracking-tight drop-shadow-[1px_1px_0px_#FFF]">1024</span>
+<span class="text-[8px] font-black uppercase tracking-wider bg-black text-white px-1 rounded-sm">SUPER</span>
+</div>
+</div>
+</div>
+<!-- Instructions / Arcade Tips Card -->
+<div class="mt-4 bg-[#23173e] border-2 border-black rounded-2xl p-3 text-center w-full max-w-[400px] neo-shadow-sm flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-[#39FF88] text-black border-2 border-black flex items-center justify-center shrink-0 neo-shadow-sm font-arcade font-bold text-lg">
+            🎮
+        </div>
+<p class="text-xs font-bold text-[#E5B8F4] text-left leading-snug">
+            Junte os blocos iguais deslizando a tela e alcance o lendário bloco <span class="text-[#FFE600] font-black font-arcade underline decoration-[#FF3385] decoration-2">2048!</span>
+</p>
+</div>
+</main>
+<!-- Neo-Brutalist Bottom Arcade Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#251842] border-t-4 border-black px-6 py-2.5 flex justify-around items-center">
+<!-- Tab Jogar (Active) -->
+<button class="flex flex-col items-center justify-center gap-1 bg-[#FFE600] text-black border-2 border-black rounded-2xl px-5 py-1.5 neo-shadow-sm btn-press transition-transform">
+<span class="material-symbols-outlined text-[22px]">videogame_asset</span>
+<span class="font-arcade font-black text-[11px] tracking-wide uppercase">Jogar</span>
+</button>
+<!-- Tab Ranking -->
+<button class="flex flex-col items-center justify-center gap-1 text-[#E5B8F4] hover:text-[#00F0FF] rounded-xl px-4 py-1.5 btn-press transition-colors">
+<span class="material-symbols-outlined text-[22px]">leaderboard</span>
+<span class="font-arcade font-bold text-[11px] tracking-wide uppercase">Ranking</span>
+</button>
+<!-- Tab Perfil -->
+<button class="flex flex-col items-center justify-center gap-1 text-[#E5B8F4] hover:text-[#39FF88] rounded-xl px-4 py-1.5 btn-press transition-colors">
+<span class="material-symbols-outlined text-[22px]">account_circle</span>
+<span class="font-arcade font-bold text-[11px] tracking-wide uppercase">Perfil</span>
+</button>
+</nav>
+<script>
+    function resetGame() {
+        const scoreElement = document.getElementById('current-score');
+        scoreElement.innerText = "0";
+        
+        // Neo punchy bounce animation for reset
+        const grid = document.querySelector('.relative.bg-\\[\\#251545\\]');
+        if(grid) {
+            grid.classList.add('scale-95');
+            setTimeout(() => {
+                grid.classList.remove('scale-95');
+            }, 160);
+        }
+    }
+
+    // Touch and swipe gestures
+    let touchstartX = 0;
+    let touchstartY = 0;
+    let touchendX = 0;
+    let touchendY = 0;
+
+    document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+        touchstartY = e.changedTouches[0].screenY;
+    }, {passive: true});
+
+    document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        touchendY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        const dx = touchendX - touchstartX;
+        const dy = touchendY - touchstartY;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx < -30) console.log('Mover Esquerda');
+            if (dx > 30) console.log('Mover Direita');
+        } else {
+            if (dy < -30) console.log('Mover Cima');
+            if (dy > 30) console.log('Mover Baixo');
+        }
+    }
+
+    // Keyboard Arrow navigation
+    window.addEventListener('keydown', (e) => {
+        if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            e.preventDefault();
+            console.log('Teclado Arcade:', e.key);
+        }
+    });
+</script>
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "surface-variant": "#37314c",
+          "surface-container-highest": "#37314c",
+          "tile-mint": "#A8FFD6",
+          "arcade-cyan": "#00F0FF",
+          "arcade-pink": "#FF3385",
+          "background": "#150f28",
+          "arcade-green": "#39FF88",
+          "arcade-yellow": "#FFE600",
+          "arcade-purple": "#8A3FFC",
+          "arcade-orange": "#FF7A00",
+          "surface-card": "#251842",
+          "surface-banner": "#381F68",
+          "slot-recessed": "#1A0C33",
+          "board-bg": "#251545"
+        },
+        "fontFamily": {
+          "fredoka": ["Fredoka", "sans-serif"],
+          "jakarta": ["Plus Jakarta Sans", "sans-serif"]
+        },
+        "boxShadow": {
+          "neo-sm": "3px 3px 0px #000000",
+          "neo": "5px 5px 0px #000000",
+          "neo-lg": "8px 8px 0px #000000",
+          "neo-xl": "10px 10px 0px #000000"
+        }
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+  }
+  body {
+    min-height: max(884px, 100dvh);
+    background: radial-gradient(circle at 50% 30%, #2f1b5c 0%, #150f28 100%);
+  }
+  .confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+  }
+  @keyframes pop-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+  }
+  .animate-pop-float {
+    animation: pop-bounce 3s ease-in-out infinite;
+  }
+</style>
+</head>
+<body class="bg-background text-white min-h-screen flex flex-col font-jakarta overflow-x-hidden select-none relative">
+<canvas class="confetti-canvas" id="confetti"></canvas>
+<!-- Elementos Geométricos Flutuantes Neo-Brutalistas Decorativos -->
+<div class="fixed top-12 left-3 w-8 h-8 bg-arcade-yellow border-2 border-black rotate-12 shadow-neo-sm pointer-events-none z-10 hidden sm:block"></div>
+<div class="fixed top-24 right-4 w-7 h-7 rounded-full bg-arcade-pink border-2 border-black shadow-neo-sm pointer-events-none z-10 hidden sm:block"></div>
+<div class="fixed bottom-28 left-4 w-6 h-6 bg-arcade-cyan border-2 border-black -rotate-45 shadow-neo-sm pointer-events-none z-10 hidden sm:block"></div>
+<div class="fixed bottom-36 right-4 w-8 h-8 rounded-full bg-arcade-green border-2 border-black shadow-neo-sm pointer-events-none z-10 hidden sm:block"></div>
+<!-- Header Superior Neo-Brutalista -->
+<header class="w-full px-4 py-3 bg-[#1e1338] border-b-4 border-black flex justify-between items-center z-40 sticky top-0">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-arcade-yellow border-3 border-black shadow-neo-sm flex items-center justify-center text-black font-black text-lg">
+<span class="material-symbols-outlined text-2xl text-black">calculate</span>
+</div>
+<div class="flex flex-col">
+<span class="font-fredoka text-2xl font-black tracking-wide text-arcade-yellow drop-shadow-[2px_2px_0px_#000]">Math2048</span>
+<span class="text-[10px] font-black uppercase text-arcade-cyan tracking-widest -mt-1">Neo-Pop Edition</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 bg-arcade-pink border-3 border-black shadow-neo-sm rounded-xl flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-black text-xl">volume_up</span>
+</button>
+<button class="w-10 h-10 bg-arcade-cyan border-3 border-black shadow-neo-sm rounded-xl flex items-center justify-center active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-black text-xl">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Container com Card de Vitória Neo-Brutalista -->
+<main class="flex-grow flex flex-col items-center justify-center px-4 py-5 pb-28 relative z-20">
+<!-- Badge Flutuante no Topo do Card -->
+<div class="mb-[-18px] z-30 bg-arcade-pink text-white px-5 py-2 rounded-full border-3 border-black shadow-neo font-fredoka font-black text-sm tracking-wider uppercase flex items-center gap-1.5 animate-bounce">
+<span>⚡</span>
+<span>VITÓRIA LENDÁRIA!</span>
+<span>⚡</span>
+</div>
+<!-- Card Principal de Vitória -->
+<div class="w-full max-w-[390px] bg-[#241744] border-[3px] border-black rounded-3xl shadow-neo-lg p-5 pt-8 flex flex-col items-center text-center relative overflow-hidden">
+<!-- Linhas e Grafismos de Fundo Interno -->
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-arcade-purple/40 rounded-full blur-xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-32 h-32 bg-arcade-pink/30 rounded-full blur-xl pointer-events-none"></div>
+<!-- Bloco do Troféu 3D Pop -->
+<div class="relative mb-3 animate-pop-float">
+<div class="w-24 h-24 bg-arcade-yellow rounded-2xl border-[3px] border-black shadow-neo flex flex-col items-center justify-center rotate-[-3deg] relative">
+<span class="material-symbols-outlined text-5xl text-black" style="filter: drop-shadow(2px 2px 0px rgba(255,255,255,0.4));">emoji_events</span>
+<div class="absolute -bottom-2 -right-2 bg-arcade-cyan px-2 py-0.5 rounded-md border-2 border-black shadow-neo-sm font-fredoka font-extrabold text-[11px] text-black">
+          2048
+        </div>
+</div>
+<div class="absolute -top-2 -left-3 bg-white text-black font-black text-xs px-2 py-0.5 rounded-full border-2 border-black shadow-neo-sm">
+        ✨ 1º LUGAR
+      </div>
+</div>
+<!-- Título Principal -->
+<h1 class="font-fredoka font-black text-4xl text-arcade-yellow tracking-tight drop-shadow-[3px_3px_0px_#000] mb-1">
+      VOCÊ VENCEU!
+    </h1>
+<p class="font-bold text-xs text-purple-200 mb-4 px-2 leading-tight">
+      Mestria matemática suprema! O lendário <span class="bg-arcade-yellow text-black px-1.5 py-0.5 rounded font-black border border-black">bloco 2048</span> foi conquistado!
+    </p>
+<!-- Placar Principal Neo-Brutalista (Card Amarelo) -->
+<div class="w-full bg-arcade-yellow border-[3px] border-black rounded-2xl shadow-neo p-3 mb-3 text-black text-left flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 bg-black text-arcade-yellow rounded-xl border-2 border-black flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">military_tech</span>
+</div>
+<div>
+<span class="block text-[10px] font-black uppercase tracking-wider text-black/70">PONTOS TOTAIS</span>
+<span class="font-fredoka text-3xl font-black leading-none text-black">48.960</span>
+</div>
+</div>
+<div class="bg-black/10 border-2 border-black rounded-lg px-2 py-1 text-center">
+<span class="text-[9px] font-black uppercase block text-black">NOVO</span>
+<span class="text-[11px] font-black text-black">RECORDE</span>
+</div>
+</div>
+<!-- Grid de Estatísticas da Partida Estilo Neo-Brutalismo Pop -->
+<div class="grid grid-cols-3 gap-2 w-full mb-4">
+<!-- Card Equações -->
+<div class="bg-arcade-cyan border-[3px] border-black rounded-xl p-2 shadow-neo-sm flex flex-col items-center text-center text-black">
+<span class="text-[9px] font-black uppercase leading-tight tracking-wider text-black/80">EQUAÇÕES</span>
+<span class="font-fredoka text-xl font-black my-0.5 text-black">124</span>
+<span class="text-[9px] font-extrabold bg-white/70 px-1.5 rounded-full border border-black text-black">RESOLVIDAS</span>
+</div>
+<!-- Card Combo -->
+<div class="bg-arcade-pink border-[3px] border-black rounded-xl p-2 shadow-neo-sm flex flex-col items-center text-center text-white">
+<span class="text-[9px] font-black uppercase leading-tight tracking-wider text-white/90">COMBO MÁX</span>
+<span class="font-fredoka text-xl font-black my-0.5 text-white drop-shadow-[1px_1px_0px_#000]">8x</span>
+<span class="text-[9px] font-extrabold bg-black text-arcade-pink px-1.5 rounded-full border border-black">EM CHAMAS</span>
+</div>
+<!-- Card Precisão -->
+<div class="bg-arcade-green border-[3px] border-black rounded-xl p-2 shadow-neo-sm flex flex-col items-center text-center text-black">
+<span class="text-[9px] font-black uppercase leading-tight tracking-wider text-black/80">PRECISÃO</span>
+<span class="font-fredoka text-xl font-black my-0.5 text-black">98.4%</span>
+<span class="text-[9px] font-extrabold bg-white/70 px-1.5 rounded-full border border-black text-black">ALGÉBRICA</span>
+</div>
+</div>
+<!-- Botões de Ação Robustos com Efeito Tátil e Sombra Rígida -->
+<div class="w-full flex flex-col gap-2.5">
+<!-- Botão Modo Infinito (Amarelo Neon) -->
+<button class="w-full bg-arcade-yellow text-black border-[3px] border-black py-3.5 rounded-2xl font-fredoka font-black text-base uppercase tracking-wider shadow-neo hover:brightness-105 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
+<span>MODO INFINITO</span>
+<span class="text-xl">🔥</span>
+</button>
+<!-- Botão Novo Jogo (Ciano Vibrante) -->
+<button class="w-full bg-arcade-cyan text-black border-[3px] border-black py-3 rounded-2xl font-fredoka font-black text-sm uppercase tracking-wider shadow-neo hover:brightness-105 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">replay</span>
+<span>NOVO JOGO</span>
+<span>🔄</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Barra de Navegação Inferior Neo-Brutalista Pop -->
+<nav class="fixed bottom-0 left-0 w-full z-40 px-3 py-2 bg-[#1b1033] border-t-4 border-black flex justify-around items-center">
+<button class="flex items-center gap-2 bg-arcade-yellow text-black border-2 border-black px-4 py-1.5 rounded-xl shadow-neo-sm font-fredoka font-black text-xs uppercase active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">sports_esports</span>
+<span>JOGAR</span>
+</button>
+<button class="flex flex-col items-center text-purple-200 hover:text-arcade-cyan py-1 px-3 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl">leaderboard</span>
+<span class="font-black text-[10px] tracking-wide uppercase">RANKING</span>
+</button>
+<button class="flex flex-col items-center text-purple-200 hover:text-arcade-pink py-1 px-3 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl">award_star</span>
+<span class="font-black text-[10px] tracking-wide uppercase">CONQUISTAS</span>
+</button>
+<button class="flex flex-col items-center text-purple-200 hover:text-arcade-green py-1 px-3 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl">account_circle</span>
+<span class="font-black text-[10px] tracking-wide uppercase">PERFIL</span>
+</button>
+</nav>
+<script>
+  // Confetes Geométricos Neo-Brutalistas / Pop Art
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  const popColors = ['#FFE600', '#00F0FF', '#FF3385', '#39FF88', '#FF7A00', '#FFFFFF'];
+
+  class PopParticle {
+    constructor() {
+      this.reset();
+      this.y = Math.random() * canvas.height;
+    }
+
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = -30;
+      this.size = Math.random() * 12 + 8;
+      this.speed = Math.random() * 3 + 2;
+      this.color = popColors[Math.floor(Math.random() * popColors.length)];
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = Math.random() * 0.15 - 0.075;
+      this.shape = Math.floor(Math.random() * 3); // 0: rect, 1: circle, 2: strip
+    }
+
+    update() {
+      this.y += this.speed;
+      this.angle += this.spin;
+      if (this.y > canvas.height + 40) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.fillStyle = this.color;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+
+      if (this.shape === 0) {
+        // Retângulo com borda preta
+        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+        ctx.strokeRect(-this.size/2, -this.size/2, this.size, this.size);
+      } else if (this.shape === 1) {
+        // Círculo com borda preta
+        ctx.beginPath();
+        ctx.arc(0, 0, this.size/2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      } else {
+        // Tira fina pop
+        ctx.fillRect(-this.size/2, -this.size/4, this.size * 1.5, this.size/2);
+        ctx.strokeRect(-this.size/2, -this.size/4, this.size * 1.5, this.size/2);
+      }
+
+      ctx.restore();
+    }
+  }
+
+  for (let i = 0; i < 60; i++) {
+    particles.push(new PopParticle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+</body></html>
