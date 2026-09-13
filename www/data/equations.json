@@ -1,30 +1,30 @@
 {
   "16": [
-    { "id": "16-01", "question": "x + 3 = 7", "answer": 4 },
-    { "id": "16-02", "question": "x - 5 = 2", "answer": 7 },
-    { "id": "16-03", "question": "2x = 8", "answer": 4 },
-    { "id": "16-04", "question": "x + 9 = 15", "answer": 6 },
-    { "id": "16-05", "question": "3x = 12", "answer": 4 }
+    { "id": "16-01", "question": "x + 3 = 7", "answer": 4, "hint": "Subtraia 3 dos dois lados: 7 - 3 = 4." },
+    { "id": "16-02", "question": "x - 5 = 2", "answer": 7, "hint": "Some 5 aos dois lados: 2 + 5 = 7." },
+    { "id": "16-03", "question": "2x = 8", "answer": 4, "hint": "Divida os dois lados por 2: 8 / 2 = 4." },
+    { "id": "16-04", "question": "x + 9 = 15", "answer": 6, "hint": "Subtraia 9 dos dois lados: 15 - 9 = 6." },
+    { "id": "16-05", "question": "3x = 12", "answer": 4, "hint": "Divida os dois lados por 3: 12 / 3 = 4." }
   ],
   "64": [
-    { "id": "64-01", "question": "2x + 4 = 10", "answer": 3 },
-    { "id": "64-02", "question": "3x + 2 = 11", "answer": 3 },
-    { "id": "64-03", "question": "4x - 3 = 13", "answer": 4 },
-    { "id": "64-04", "question": "5x + 5 = 30", "answer": 5 },
-    { "id": "64-05", "question": "3x - 4 = 8", "answer": 4 }
+    { "id": "64-01", "question": "2x + 4 = 10", "answer": 3, "hint": "Isole o 2x fazendo 10 - 4 = 6, depois divida por 2!" },
+    { "id": "64-02", "question": "3x + 2 = 11", "answer": 3, "hint": "Isole o 3x fazendo 11 - 2 = 9, depois divida por 3." },
+    { "id": "64-03", "question": "4x - 3 = 13", "answer": 4, "hint": "Isole o 4x fazendo 13 + 3 = 16, depois divida por 4." },
+    { "id": "64-04", "question": "5x + 5 = 30", "answer": 5, "hint": "Isole o 5x fazendo 30 - 5 = 25, depois divida por 5." },
+    { "id": "64-05", "question": "3x - 4 = 8", "answer": 4, "hint": "Isole o 3x fazendo 8 + 4 = 12, depois divida por 3." }
   ],
   "256": [
-    { "id": "256-01", "question": "6x + 8 = 50", "answer": 7 },
-    { "id": "256-02", "question": "7x - 12 = 30", "answer": 6 },
-    { "id": "256-03", "question": "9x + 15 = 96", "answer": 9 },
-    { "id": "256-04", "question": "8x - 20 = 60", "answer": 10 },
-    { "id": "256-05", "question": "10x + 25 = 145", "answer": 12 }
+    { "id": "256-01", "question": "6x + 8 = 50", "answer": 7, "hint": "Isole o 6x fazendo 50 - 8 = 42, depois divida por 6." },
+    { "id": "256-02", "question": "7x - 12 = 30", "answer": 6, "hint": "Isole o 7x fazendo 30 + 12 = 42, depois divida por 7." },
+    { "id": "256-03", "question": "9x + 15 = 96", "answer": 9, "hint": "Isole o 9x fazendo 96 - 15 = 81, depois divida por 9." },
+    { "id": "256-04", "question": "8x - 20 = 60", "answer": 10, "hint": "Isole o 8x fazendo 60 + 20 = 80, depois divida por 8." },
+    { "id": "256-05", "question": "10x + 25 = 145", "answer": 12, "hint": "Isole o 10x fazendo 145 - 25 = 120, depois divida por 10." }
   ],
   "1024": [
-    { "id": "1024-01", "question": "5x - 7 = 2x + 8", "answer": 5 },
-    { "id": "1024-02", "question": "6x + 10 = 3x + 40", "answer": 10 },
-    { "id": "1024-03", "question": "4x - 15 = x + 12", "answer": 9 },
-    { "id": "1024-04", "question": "9x - 20 = 4x + 30", "answer": 10 },
-    { "id": "1024-05", "question": "7x + 8 = 3x + 60", "answer": 13 }
+    { "id": "1024-01", "question": "5x - 7 = 2x + 8", "answer": 5, "hint": "Junte os x de um lado: 5x - 2x = 8 + 7, ou seja 3x = 15." },
+    { "id": "1024-02", "question": "6x + 10 = 3x + 40", "answer": 10, "hint": "Junte os x de um lado: 6x - 3x = 40 - 10, ou seja 3x = 30." },
+    { "id": "1024-03", "question": "4x - 15 = x + 12", "answer": 9, "hint": "Junte os x de um lado: 4x - x = 12 + 15, ou seja 3x = 27." },
+    { "id": "1024-04", "question": "9x - 20 = 4x + 30", "answer": 10, "hint": "Junte os x de um lado: 9x - 4x = 30 + 20, ou seja 5x = 50." },
+    { "id": "1024-05", "question": "7x + 8 = 3x + 60", "answer": 13, "hint": "Junte os x de um lado: 7x - 3x = 60 - 8, ou seja 4x = 52." }
   ]
 }

@@ -5,14 +5,35 @@
 
 const { t } = require('../../i18n/i18n');
 
-function renderWinModal(modalEl, { score, onContinue, onStop }) {
+/**
+ * @param {HTMLElement} modalEl
+ * @param {object} params
+ * @param {number} params.score
+ * @param {number} params.equationsSolved
+ * @param {boolean} params.isNewRecord
+ * @param {() => void} params.onContinue
+ * @param {() => void} params.onStop
+ */
+function renderWinModal(modalEl, { score, equationsSolved, isNewRecord, onContinue, onStop }) {
   modalEl.innerHTML = `
     <div class="modal__card">
-      <h2 class="modal__title">${t('win.title')}</h2>
-      <p class="modal__text">${t('win.text')} <strong>${score}</strong></p>
-      <div class="modal__actions">
-        <button id="win-continue" class="btn btn--secondary">${t('win.btnContinue')}</button>
-        <button id="win-stop" class="btn btn--secondary">${t('win.btnStop')}</button>
+      <span class="result-badge result-badge--won">${t('win.badge')}</span>
+      <h2 class="modal__title">🏆 ${t('win.title')}</h2>
+      <p class="modal__text">${t('win.text')}</p>
+      <div class="result-card result-card--won">
+        <div>
+          <span class="result-card__label">${t('win.scoreLabel')}</span>
+          <span class="result-card__value">${score}</span>
+        </div>
+        ${isNewRecord ? `<span class="result-card__new-badge">${t('win.newRecordBadge')}</span>` : ''}
+      </div>
+      <div class="result-card result-card--mint">
+        <span class="result-card__label">${t('win.equationsLabel')}</span>
+        <span class="result-card__value">${equationsSolved}</span>
+      </div>
+      <div class="btn-row" style="flex-direction:column;">
+        <button id="win-continue" class="btn btn--yellow" style="width:100%;">${t('win.btnContinue')} 🔥</button>
+        <button id="win-stop" class="btn btn--cyan" style="width:100%;">${t('win.btnStop')}</button>
       </div>
     </div>
   `;

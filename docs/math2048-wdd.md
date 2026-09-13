@@ -64,6 +64,15 @@
 
 ## 8. Arte e Estilo Visual
 
+> **Atualização:** a direção de arte abaixo foi a concepção original do
+> WDD e chegou a ser implementada numa primeira passada. Ela foi
+> substituída pelo sistema **"Arcade Neo-Brutalism"** — fundo roxo
+> cósmico, cores neon saturadas, bordas pretas grossas e sombras duras —
+> a partir de telas de referência fornecidas pelo responsável pelo
+> projeto. A descrição completa e atual do sistema de design vive em
+> `docs/design-system.md`; o texto original abaixo é mantido como registro
+> histórico da concepção inicial.
+
 - **Direção de Arte:** Estilo minimalista, limpo e "Flat Design", garantindo leveza técnica para dispositivos móveis antigos através de renderização CSS pura.
 - **Referências Visuais:** O jogo clássico "2048" de Gabriele Cirulli e interfaces modernas de aplicações de e-learning (como Duolingo/Kahoot).
 - **Paleta de Cores:** Cores contrastantes e progressivas. Tons pastel suaves para blocos baixos (2, 4, 8), cores quentes e vibrantes para blocos médios (16, 64, 128) e tons dourados/brilhantes para os blocos de alta pontuação (1024, 2048) para facilitar a acessibilidade e contraste.

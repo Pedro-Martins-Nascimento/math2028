@@ -28,7 +28,8 @@ function createInitialState() {
     score: 0,
     status: 'playing', // 'playing' | 'won' | 'gameOver' | 'challenge'
     infiniteMode: false,
-    pendingChallenge: null // valor do bloco gatilho (16/64/256/1024) em aberto
+    pendingChallenge: null, // valor do bloco gatilho (16/64/256/1024) em aberto
+    equationsSolved: 0 // contagem de desafios do gatekeeper resolvidos corretamente
   };
 }
 
@@ -141,7 +142,8 @@ function resolveChallenge(state, wasCorrect) {
   return {
     ...state,
     status: computeStatus(state.board, state.infiniteMode),
-    pendingChallenge: null
+    pendingChallenge: null,
+    equationsSolved: (state.equationsSolved || 0) + 1
   };
 }
 

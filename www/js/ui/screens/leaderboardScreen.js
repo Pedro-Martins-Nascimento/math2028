@@ -12,21 +12,26 @@ const { t } = require('../../i18n/i18n');
  * @param {object} params
  * @param {() => void} params.onClose
  */
-async function renderLeaderboardScreen(screenEl, { onClose }) {
+async function renderLeaderboardScreen(screenEl, { onClose } = {}) {
   screenEl.innerHTML = `
     <div class="modal__card">
       <h2 class="modal__title">${t('leaderboard.title')}</h2>
       <div id="leaderboard-list" class="modal__text">${t('leaderboard.loading')}</div>
-      <div class="modal__actions">
-        <button id="leaderboard-close" class="btn btn--secondary">${t('leaderboard.btnClose')}</button>
-      </div>
+      ${onClose ? `
+        <div class="modal__actions">
+          <button id="leaderboard-close" class="btn btn--secondary">${t('leaderboard.btnClose')}</button>
+        </div>
+      ` : ''}
     </div>
   `;
   screenEl.hidden = false;
-  screenEl.querySelector('#leaderboard-close').addEventListener('click', () => {
-    screenEl.hidden = true;
-    onClose();
-  });
+
+  if (onClose) {
+    screenEl.querySelector('#leaderboard-close').addEventListener('click', () => {
+      screenEl.hidden = true;
+      onClose();
+    });
+  }
 
   const listEl = screenEl.querySelector('#leaderboard-list');
   const { entries, error } = await getTopScores();

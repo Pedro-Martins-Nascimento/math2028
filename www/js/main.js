@@ -1,8 +1,8 @@
 /**
  * Ponto de entrada do jogo. Conecta gameState ao input (teclado/swipe), à
- * renderização (boardRenderer + modais), ao gatekeeper matemático e à
- * autenticação/ranking via Supabase (M3). Empacotado com esbuild para
- * `www/dist/bundle.js` (ver `npm run build:web`).
+ * renderização (boardRenderer + modais), à navegação entre telas, ao
+ * gatekeeper matemático e à autenticação/ranking via Supabase (M3).
+ * Empacotado com esbuild para `www/dist/bundle.js` (ver `npm run build:web`).
  */
 
 const { createInitialState, applyMove, resolveChallenge, continueInfinite } = require('./core/gameState');
@@ -14,9 +14,10 @@ const { renderGameOverModal, hideGameOverModal } = require('./ui/modals/gameOver
 const { renderWinModal, hideWinModal } = require('./ui/modals/winModal');
 const { renderEquationModal, hideEquationModal } = require('./ui/modals/equationModal');
 const { setHudFrozen, renderHudUser, renderHudRecord } = require('./ui/hud');
+const { createScreenRouter } = require('./ui/navigation');
 const { saveSession, loadSession, clearSession } = require('./storage/localSession');
-const { updateHighScore } = require('./storage/highScore');
-const { renderAuthScreen, hideAuthScreen } = require('./ui/screens/authScreen');
+const { getHighScore, updateHighScore } = require('./storage/highScore');
+const { renderAuthScreen } = require('./ui/screens/authScreen');
 const { renderLeaderboardScreen } = require('./ui/screens/leaderboardScreen');
 const { getCurrentUser, logout } = require('./auth/session');
 const { submitScore } = require('./ranking/scoreService');
@@ -36,18 +37,28 @@ function applyStaticI18n() {
 function initGame() {
   const boardEl = document.getElementById('board');
   const boardContainerEl = document.getElementById('board-container');
+  const boardHudEl = document.getElementById('board-hud');
   const scoreEl = document.getElementById('score-value');
   const recordEl = document.getElementById('record-value');
-  const hudEl = document.getElementById('hud');
+  const homeRecordEl = document.getElementById('home-record-value');
+  const homePlayBtn = document.getElementById('home-play-btn');
+  const backToHomeBtn = document.getElementById('back-to-home-btn');
   const hudUserEl = document.getElementById('hud-user');
   const newGameBtn = document.getElementById('new-game-btn');
-  const authBtn = document.getElementById('auth-btn');
-  const leaderboardBtn = document.getElementById('leaderboard-btn');
   const gameOverModalEl = document.getElementById('game-over-modal');
   const winModalEl = document.getElementById('win-modal');
   const equationModalEl = document.getElementById('equation-modal');
-  const authScreenEl = document.getElementById('auth-screen');
-  const leaderboardScreenEl = document.getElementById('leaderboard-screen');
+
+  const screens = {
+    login: document.getElementById('screen-login'),
+    home: document.getElementById('screen-home'),
+    board: document.getElementById('screen-board'),
+    ranking: document.getElementById('screen-ranking'),
+    perfil: document.getElementById('screen-perfil')
+  };
+  const bottomNavEl = document.getElementById('bottom-nav');
+  const navButtons = Array.from(document.querySelectorAll('.bottom-nav__item'));
+  const router = createScreenRouter(screens, navButtons);
 
   let state = loadSession() || createInitialState();
   let currentUser = null;
@@ -59,7 +70,33 @@ function initGame() {
 
   function updateAuthUi() {
     renderHudUser(hudUserEl, currentUser ? currentUser.email : null);
-    authBtn.textContent = currentUser ? t('hud.btnLogout') : t('hud.btnLogin');
+  }
+
+  function renderPerfilScreen() {
+    if (currentUser) {
+      screens.perfil.innerHTML = `
+        <div class="modal__card">
+          <h2 class="modal__title">👤 ${t('nav.account')}</h2>
+          <p id="perfil-email" class="modal__text"></p>
+          <button id="perfil-logout" class="btn btn--pink" style="width:100%;">${t('hud.btnLogout')}</button>
+        </div>
+      `;
+      screens.perfil.querySelector('#perfil-email').textContent = currentUser.email;
+      screens.perfil.querySelector('#perfil-logout').addEventListener('click', async () => {
+        await logout();
+        currentUser = null;
+        updateAuthUi();
+        renderPerfilScreen();
+      });
+    } else {
+      renderAuthScreen(screens.perfil, {
+        onAuthenticated: (user) => {
+          currentUser = user;
+          updateAuthUi();
+          renderPerfilScreen();
+        }
+      });
+    }
   }
 
   async function maybeSubmitScore() {
@@ -80,12 +117,16 @@ function initGame() {
   }
 
   function render() {
+    const previousRecord = getHighScore();
+    const record = updateHighScore(state.score);
+    const isNewRecord = state.score > previousRecord;
+
     renderBoard(boardEl, state.board);
     renderScore(scoreEl, state.score);
-    renderHudRecord(recordEl, updateHighScore(state.score));
-    setHudFrozen(hudEl, state.status === 'challenge');
-    leaderboardBtn.disabled = state.status === 'challenge';
-    authBtn.disabled = state.status === 'challenge';
+    renderHudRecord(recordEl, record);
+    renderHudRecord(homeRecordEl, record);
+    homePlayBtn.querySelector('[data-i18n]').textContent = state.score > 0 ? t('home.btnContinue') : t('home.btnPlay');
+    setHudFrozen(boardHudEl, state.status === 'challenge');
     saveSession(state);
 
     if (state.status === 'gameOver') {
@@ -93,12 +134,21 @@ function initGame() {
       maybeSubmitScore();
       renderGameOverModal(gameOverModalEl, {
         score: state.score,
-        onRestart: restart
+        record,
+        equationsSolved: state.equationsSolved || 0,
+        onRestart: restart,
+        onViewRanking: () => {
+          hideGameOverModal(gameOverModalEl);
+          router.show('ranking');
+          renderRankingScreen();
+        }
       });
     } else if (state.status === 'won') {
       hideEquationModal(equationModalEl);
       renderWinModal(winModalEl, {
         score: state.score,
+        equationsSolved: state.equationsSolved || 0,
+        isNewRecord,
         onContinue: () => {
           state = continueInfinite(state);
           render();
@@ -138,6 +188,11 @@ function initGame() {
     state = createInitialState();
     scoreSubmittedForThisGame = false;
     render();
+    router.show('board', 'home');
+  }
+
+  function renderRankingScreen() {
+    renderLeaderboardScreen(screens.ranking);
   }
 
   attachKeyboardInput(handleMove);
@@ -154,28 +209,43 @@ function initGame() {
     resizeTimeout = setTimeout(() => renderBoard(boardEl, state.board), 120);
   });
 
-  authBtn.addEventListener('click', async () => {
-    if (currentUser) {
-      await logout();
-      currentUser = null;
-      updateAuthUi();
-      return;
-    }
-
-    renderAuthScreen(authScreenEl, {
-      onAuthenticated: (user) => {
-        currentUser = user;
-        updateAuthUi();
-        hideAuthScreen(authScreenEl);
-      },
-      onSkip: () => hideAuthScreen(authScreenEl)
-    });
+  homePlayBtn.addEventListener('click', () => {
+    router.show('board', 'home');
+    // O tabuleiro pode ter sido desenhado pela última vez enquanto a tela
+    // "board" ainda estava escondida (clientWidth 0, ver getCellSize em
+    // boardRenderer.js) — redesenha agora que o container tem layout real,
+    // senão os blocos ficam com posição/tamanho quebrados até a próxima
+    // jogada.
+    renderBoard(boardEl, state.board);
   });
+  backToHomeBtn.addEventListener('click', () => router.show('home'));
 
-  leaderboardBtn.addEventListener('click', () => {
-    renderLeaderboardScreen(leaderboardScreenEl, {
-      onClose: () => {}
-    });
+  document.getElementById('nav-ranking').addEventListener('click', renderRankingScreen);
+  document.getElementById('nav-perfil').addEventListener('click', renderPerfilScreen);
+
+  /**
+   * Sai da tela de login/boas-vindas (a primeira coisa que o jogador vê,
+   * toda vez que o app é aberto) para a Home, liberando a navegação
+   * inferior. Chamado tanto ao entrar ou se cadastrar quanto ao escolher
+   * "jogar sem conta".
+   * @param {object|null} user
+   */
+  function enterApp(user) {
+    currentUser = user;
+    updateAuthUi();
+    bottomNavEl.hidden = false;
+    router.show('home');
+    // Só desenha o jogo (tabuleiro e possíveis modais de desafio/fim de
+    // jogo de uma sessão salva) depois que o jogador realmente entra no
+    // app — sem isso, um desafio do gatekeeper salvo no meio de uma
+    // partida anterior aparecia por cima da própria tela de login.
+    render();
+  }
+
+  router.show('login');
+  renderAuthScreen(screens.login, {
+    onAuthenticated: enterApp,
+    onSkip: () => enterApp(null)
   });
 
   getCurrentUser().then((user) => {
@@ -184,7 +254,6 @@ function initGame() {
   });
 
   applyStaticI18n();
-  render();
 }
 
 document.addEventListener('DOMContentLoaded', initGame);

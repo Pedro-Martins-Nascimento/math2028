@@ -1,11 +1,11 @@
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(43, 45, 66, 0.85);
+  background: rgba(16, 10, 35, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 50;
+  z-index: 100;
   padding: var(--spacing-md);
 }
 
@@ -14,80 +14,49 @@
 }
 
 .modal__card {
-  background: #fff;
-  border-radius: var(--radius-md);
+  background: var(--color-surface-card);
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   padding: var(--spacing-lg);
   max-width: 380px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .modal__title {
+  font-family: var(--font-display);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 800;
+  text-transform: uppercase;
   margin: 0 0 var(--spacing-sm);
-  color: var(--color-primary-dark);
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .modal__text {
   margin: 0 0 var(--spacing-md);
   font-size: 14px;
-}
-
-.modal__subtitle {
-  margin: 0 0 var(--spacing-md);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
-.modal__equation {
-  margin: 0 0 var(--spacing-md);
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.modal__input-label {
-  display: block;
-  font-size: 12px;
-  margin-bottom: var(--spacing-sm);
-  color: var(--color-text);
-}
-
-.modal__warning {
-  margin: var(--spacing-sm) 0 0;
-  font-size: 12px;
-  color: var(--color-primary);
-  opacity: 0.85;
-}
-
-.modal__quote {
-  margin: var(--spacing-md) 0 0;
-  font-size: 12px;
-  font-style: italic;
-  color: var(--color-primary);
-}
-
-.modal__card--gatekeeper {
-  border-top: 4px solid var(--color-accent);
+  font-weight: 600;
 }
 
 .modal__input {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
+  padding: 12px;
+  font-size: 18px;
+  font-family: var(--font-display);
+  font-weight: 800;
   border-radius: var(--radius-md);
-  border: 1px solid #ccc;
+  border: 3px solid var(--border-color);
+  background: var(--color-slot-recessed);
+  color: var(--color-green);
   margin-bottom: var(--spacing-md);
   text-align: center;
 }
 
 .modal__error {
-  color: #d9534f;
+  color: var(--color-pink);
+  font-weight: 700;
   font-size: 13px;
   min-height: 18px;
   margin-bottom: var(--spacing-sm);
@@ -97,4 +66,214 @@
   display: flex;
   gap: var(--spacing-sm);
   justify-content: center;
+}
+
+.modal__actions .btn {
+  flex: 1;
+}
+
+/* ---------- Desafio do Gatekeeper ---------- */
+.modal__card--gatekeeper {
+  border-top: 6px solid var(--color-yellow);
+}
+
+.modal__pill-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.modal__subtitle {
+  margin: 0 0 var(--spacing-md);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-lavender);
+}
+
+.modal__equation-banner {
+  position: relative;
+  background: var(--color-yellow);
+  color: #1a0c33;
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 22px 12px 14px;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal__equation-tag {
+  position: absolute;
+  top: -12px;
+  left: 14px;
+  background: #000;
+  color: var(--color-yellow);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.modal__equation {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  margin: 0;
+}
+
+.modal__input-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.modal__input-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.modal__input-label span {
+  color: var(--color-cyan);
+  font-weight: 800;
+}
+
+.modal__input-row .modal__input {
+  margin-bottom: 0;
+  max-width: 140px;
+}
+
+.modal__keypad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal__keypad-key {
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--color-surface-banner);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  padding: 10px 0;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.modal__keypad-key:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.modal__keypad-key--clear {
+  background: var(--color-pink);
+  color: #fff;
+}
+
+.modal__warning,
+.modal__hint {
+  margin: var(--spacing-sm) 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-lavender);
+  text-align: left;
+  background: rgba(16, 10, 35, 0.5);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+}
+
+.modal__hint strong {
+  color: var(--color-cyan);
+}
+
+.modal__quote {
+  margin: var(--spacing-md) 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-text-lavender);
+}
+
+/* ---------- Fim de jogo / Vitória: cards de resultado ---------- */
+.result-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 0 0 var(--spacing-md);
+  transform: rotate(-2deg);
+}
+
+.result-badge--lost { background: var(--color-pink); color: #fff; }
+.result-badge--won { background: var(--color-cyan); color: #1a0c33; }
+
+.result-card {
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+  text-align: left;
+}
+
+.result-card--primary { background: var(--color-pink); color: #fff; }
+.result-card--won { background: var(--color-yellow); color: #1a0c33; }
+
+.result-card__label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+  display: block;
+}
+
+.result-card__value {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.result-grid .result-card {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.result-card--yellow { background: var(--color-yellow); color: #1a0c33; }
+.result-card--mint { background: #a8ffd6; color: #1a0c33; }
+
+.result-card__new-badge {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 800;
+  background: #000;
+  color: var(--color-yellow);
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-transform: uppercase;
 }

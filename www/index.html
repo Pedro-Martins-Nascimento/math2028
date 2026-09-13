@@ -12,38 +12,79 @@
 </head>
 <body>
   <div id="app">
-    <header id="hud" class="hud">
-      <h1 class="hud__title" data-i18n="hud.title">Math2048</h1>
-      <div class="hud__stats">
-        <div class="hud__stat">
-          <span class="hud__stat-label" data-i18n="hud.scoreLabel">Pontos</span>
-          <span id="score-value" class="hud__stat-value">0</span>
-        </div>
-        <div class="hud__stat hud__stat--record">
-          <span class="hud__stat-label" data-i18n="hud.recordLabel">Recorde</span>
-          <span id="record-value" class="hud__stat-value">0</span>
-        </div>
-      </div>
-      <div id="hud-user" class="hud__user" hidden></div>
-      <button id="leaderboard-btn" class="btn btn--secondary" data-i18n="hud.btnRanking">Ranking</button>
-      <button id="auth-btn" class="btn btn--secondary" data-i18n="hud.btnLogin">Entrar</button>
-      <button id="new-game-btn" class="btn btn--secondary" data-i18n="hud.btnNewGame">Novo jogo</button>
+    <header class="top-header">
+      <span class="top-header__badge">MATH</span>
+      <h1 class="top-header__title" data-i18n="hud.title">2048</h1>
+      <div id="hud-user" class="top-header__user" hidden></div>
     </header>
 
-    <main id="board-container" class="board-container" aria-label="Tabuleiro do jogo">
-      <div id="board" class="board"></div>
-    </main>
+    <section id="screen-login" class="screen"></section>
 
-    <footer class="footer">
-      <p data-i18n="footer.hint">Junte os números e chegue ao bloco 2048! Use as setas ou deslize para mover os blocos.</p>
-    </footer>
+    <section id="screen-home" class="screen" hidden>
+      <div class="neo-card neo-card--banner">
+        <span class="pill pill--yellow">🕹️ Modo Clássico</span>
+        <h2 class="neo-headline" style="font-size:26px;color:#fff;margin-top:8px;">
+          MATH<span style="color:var(--color-yellow)">2048</span> ARCADE
+        </h2>
+        <p class="neo-tagline" data-i18n="home.tagline">Junte blocos, vença equações e alcance o 2048!</p>
+      </div>
+
+      <div class="neo-card neo-card--yellow">
+        <span class="pill pill--dark">Tradicional + Gatekeeper</span>
+        <h3 class="neo-headline" style="font-size:20px;margin-top:8px;" data-i18n="home.modeTitle">Modo Clássico</h3>
+        <p style="font-weight:600;font-size:13px;" data-i18n="home.modeText">Deslize os números, funda blocos e resolva equações surpresa na grade 4x4!</p>
+        <p style="font-family:var(--font-display);font-weight:800;font-size:13px;margin:8px 0;">
+          <span data-i18n="home.recordLabel">RECORDE:</span> <span id="home-record-value">0</span> PTS
+        </p>
+        <button id="home-play-btn" class="btn btn--cyan" style="width:100%;">▶ <span data-i18n="home.btnPlay">Jogar</span></button>
+      </div>
+
+      <div class="neo-card footer">
+        <span class="footer__icon">💡</span>
+        <p class="footer__text" data-i18n="footer.hint">Junte os números e chegue ao bloco 2048! Use as setas ou deslize para mover os blocos.</p>
+      </div>
+    </section>
+
+    <section id="screen-board" class="screen" hidden>
+      <div class="btn-row">
+        <button id="back-to-home-btn" class="btn btn--ghost">◀ <span data-i18n="board.btnBack">Voltar</span></button>
+        <button id="new-game-btn" class="btn btn--cyan">🔄 <span data-i18n="hud.btnNewGame">Novo jogo</span></button>
+      </div>
+      <div id="board-hud" class="hud-stats">
+        <div class="hud-stat hud-stat--score">
+          <span class="hud-stat__label" data-i18n="hud.scoreLabel">Pontos</span>
+          <span id="score-value" class="hud-stat__value">0</span>
+        </div>
+        <div class="hud-stat hud-stat--record">
+          <span class="hud-stat__label" data-i18n="hud.recordLabel">Recorde</span>
+          <span id="record-value" class="hud-stat__value">0</span>
+        </div>
+      </div>
+      <main id="board-container" class="board-container" aria-label="Tabuleiro do jogo">
+        <div id="board" class="board"></div>
+      </main>
+    </section>
+
+    <section id="screen-ranking" class="screen" hidden></section>
+
+    <section id="screen-perfil" class="screen" hidden></section>
   </div>
+
+  <nav id="bottom-nav" class="bottom-nav" hidden>
+    <button id="nav-home" class="bottom-nav__item bottom-nav__item--active" data-screen="home">
+      <span class="bottom-nav__item-icon">🎮</span><span data-i18n="nav.play">Jogar</span>
+    </button>
+    <button id="nav-ranking" class="bottom-nav__item" data-screen="ranking">
+      <span class="bottom-nav__item-icon">🏆</span><span data-i18n="nav.ranking">Ranking</span>
+    </button>
+    <button id="nav-perfil" class="bottom-nav__item" data-screen="perfil">
+      <span class="bottom-nav__item-icon">👤</span><span data-i18n="nav.account">Perfil</span>
+    </button>
+  </nav>
 
   <div id="equation-modal" class="modal" hidden></div>
   <div id="game-over-modal" class="modal" hidden></div>
   <div id="win-modal" class="modal" hidden></div>
-  <div id="auth-screen" class="modal" hidden></div>
-  <div id="leaderboard-screen" class="modal" hidden></div>
 
   <script src="cordova.js"></script>
   <script src="dist/bundle.js"></script>
