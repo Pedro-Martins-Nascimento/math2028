@@ -34,7 +34,7 @@ Por diretrizes de segurança (M3-01 / M3-05), o arquivo com as credenciais não 
 2. Cole as credenciais compartilhadas pela equipe (ex.: via **Bitwarden Send** ou cofre seguro):
 ```javascript
 module.exports = {
-  SUPABASE_URL: 'https://rkazsvqaceqzbcjxhrwl.supabase.co',
+  SUPABASE_URL: 'SUA_SUPABASE_URL_RECEBIDA_VIA_BITWARDEN',
   SUPABASE_ANON_KEY: 'SUA_ANON_KEY_RECEBIDA_VIA_BITWARDEN'
 };
 ```
