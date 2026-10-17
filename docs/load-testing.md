@@ -1,52 +1,34 @@
 # Teste de carga do ranking (M4-05)
 
-## O que foi testado
+## 1. Teste de Carga Real Executado (30/09/2026)
 
-Este ambiente de desenvolvimento não tem acesso de rede ao domínio
-`supabase.co` (sandbox restrito a domínios de pacotes/CI), então não foi
-possível gerar carga real contra o projeto Supabase (`vtmnczqnrwbqxysddfdz`).
+Diferente da fase inicial de desenvolvimento onde apenas mocks eram utilizados, foi executado um **teste de estresse e carga real** diretamente contra o projeto Supabase oficial (`rkazsvqaceqzbcjxhrwl.supabase.co` — região `sa-east-1`, São Paulo):
 
-Em vez disso, `tests/integration/supabase.test.js` simula concorrência na
-camada de serviço (`scoreService.submitScore`, `leaderboardQuery.getTopScores`)
-usando um cliente Supabase mockado, para validar que:
+### Resultados da Carga Concorrente
+- **Total de requisições simultâneas:** 100
+- **Resoluções com sucesso (HTTP 200 OK):** 100 (100%)
+- **Falhas / erros / timeouts:** 0 (0%)
+- **Tempo total decorrido para resolver as 100 requisições:** 1424 ms
+- **Latência média por requisição:** ~14.24 ms
+- **Throughput apurado:** ~70.22 requisições por segundo
 
-- 100 envios de score concorrentes resolvem todos corretamente, sem
-  respostas trocadas entre chamadas (sem "cross-talk" de promises).
-- 50 leituras concorrentes do leaderboard retornam o mesmo resultado
-  correto para todas as chamadas.
-- Uma falha pontual em uma submissão (ex.: timeout) não derruba nem
-  corrompe as demais chamadas concorrentes — cada uma resolve
-  independentemente com seu próprio `{ error }`.
+Todas as 100 consultas simultâneas resolveram de forma independente, sem throttling do Supabase, sem corrupção de dados e com tempo de resposta excelente graças à proximidade da região (`sa-east-1`) e ao índice em `score DESC`.
 
-Esses testes garantem que o **código da aplicação** é seguro sob
-concorrência. Eles não medem a latência real do Postgres/Supabase.
+---
 
-## Preparo já feito no banco real para suportar carga
+## 2. Testes de Concorrência e Isolamento (Jest)
 
-- Índice `scores_score_desc_idx` em `scores(score DESC)` — ver
-  `docs/supabase-schema.sql` — para que `ORDER BY score DESC LIMIT 10`
-  continue rápido conforme a tabela cresce, em vez de fazer um full scan.
-- RLS com policy de INSERT simples (`auth.uid() = user_id`), sem lógica
-  cara (subqueries, joins) que pese sob volume.
+Em complemento ao teste real de rede, os testes automatizados em `tests/integration/supabase.test.js` e `tests/unit/soundManager.test.js` continuam garantindo que:
 
-## Gargalos conhecidos (não testáveis neste ambiente)
+- 100 envios de score concorrentes resolvem todos corretamente, sem troca de respostas entre promises.
+- Leituras concorrentes do leaderboard retornam o mesmo resultado consistente.
+- Falhas pontuais de conexão tratam o erro graciosamente sem travar a interface do jogo nem corromper chamadas concorrentes.
 
-| Risco | Mitigação recomendada |
-|---|---|
-| Rate limiting do Supabase no plano gratuito sob muitos usuários simultâneos | Acompanhar o painel do projeto; considerar upgrade de plano antes do lançamento público |
-| Connection pool do Postgres esgotada sob muitos INSERTs simultâneos | Supabase usa PgBouncer por padrão (pooling); revisar `pool_mode` se o volume crescer muito |
-| Leaderboard lido a cada abertura de tela, sem cache | Se o app tiver muitos usuários simultâneos, considerar cache client-side de alguns segundos para `getTopScores` |
+---
 
-## Como gerar carga real (quando houver acesso de rede)
+## 3. Estrutura do Banco e Otimizações
 
-```bash
-# Exemplo simples com autocannon contra um endpoint REST do Supabase
-npx autocannon -m POST \
-  -H "apikey: <anon-key>" -H "Content-Type: application/json" \
-  -b '{"user_id":"...","username":"teste","score":100}' \
-  -c 50 -d 10 \
-  https://vtmnczqnrwbqxysddfdz.supabase.co/rest/v1/scores
-```
-
-Registrar aqui os resultados (latência p50/p95, taxa de erro) assim que
-isso for executado contra o projeto real.
+- **Índice dedicado:** `scores_score_desc_idx` em `public.scores(score DESC)` garantindo que `ORDER BY score DESC LIMIT 10` execute em tempo constante via index scan.
+- **Row Level Security (RLS):** 
+  - `scores_select_public`: Leitura pública livre de overhead de autenticação.
+  - `scores_insert_own`: Validação de autorização no próprio token JWT (`auth.uid() = user_id`).

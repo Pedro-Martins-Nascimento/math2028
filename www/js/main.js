@@ -13,7 +13,8 @@ const { renderBoard, renderScore } = require('./ui/boardRenderer');
 const { renderGameOverModal, hideGameOverModal } = require('./ui/modals/gameOverModal');
 const { renderWinModal, hideWinModal } = require('./ui/modals/winModal');
 const { renderEquationModal, hideEquationModal } = require('./ui/modals/equationModal');
-const { setHudFrozen, renderHudUser, renderHudRecord } = require('./ui/hud');
+const { renderTutorialModal, hideTutorialModal } = require('./ui/modals/tutorialModal');
+const { setHudFrozen, renderHudUser, renderHudRecord, renderHudPhases } = require('./ui/hud');
 const { createScreenRouter } = require('./ui/navigation');
 const { saveSession, loadSession, clearSession } = require('./storage/localSession');
 const { getHighScore, updateHighScore } = require('./storage/highScore');
@@ -21,6 +22,7 @@ const { renderAuthScreen } = require('./ui/screens/authScreen');
 const { renderLeaderboardScreen } = require('./ui/screens/leaderboardScreen');
 const { getCurrentUser, logout } = require('./auth/session');
 const { submitScore } = require('./ranking/scoreService');
+const { soundManager } = require('./audio/soundManager');
 const { t } = require('./i18n/i18n');
 
 /**
@@ -48,6 +50,10 @@ function initGame() {
   const gameOverModalEl = document.getElementById('game-over-modal');
   const winModalEl = document.getElementById('win-modal');
   const equationModalEl = document.getElementById('equation-modal');
+  const tutorialModalEl = document.getElementById('tutorial-modal');
+  const boardPhasesEl = document.getElementById('board-phases');
+  const homeTutorialBtn = document.getElementById('home-tutorial-btn');
+  const boardHelpBtn = document.getElementById('board-help-btn');
 
   const screens = {
     login: document.getElementById('screen-login'),
@@ -125,6 +131,7 @@ function initGame() {
     renderScore(scoreEl, state.score);
     renderHudRecord(recordEl, record);
     renderHudRecord(homeRecordEl, record);
+    renderHudPhases(boardPhasesEl, state.board);
     homePlayBtn.querySelector('[data-i18n]').textContent = state.score > 0 ? t('home.btnContinue') : t('home.btnPlay');
     setHudFrozen(boardHudEl, state.status === 'challenge');
     saveSession(state);
@@ -132,6 +139,7 @@ function initGame() {
     if (state.status === 'gameOver') {
       hideEquationModal(equationModalEl);
       maybeSubmitScore();
+      soundManager.playGameOver();
       renderGameOverModal(gameOverModalEl, {
         score: state.score,
         record,
@@ -145,6 +153,7 @@ function initGame() {
       });
     } else if (state.status === 'won') {
       hideEquationModal(equationModalEl);
+      soundManager.playWin();
       renderWinModal(winModalEl, {
         score: state.score,
         equationsSolved: state.equationsSolved || 0,
@@ -158,16 +167,19 @@ function initGame() {
     } else if (state.status === 'challenge') {
       hideGameOverModal(gameOverModalEl);
       hideWinModal(winModalEl);
+      soundManager.playChallenge();
       const equation = getRandomEquationForTrigger(state.pendingChallenge);
       renderEquationModal(equationModalEl, {
         equation,
         trigger: state.pendingChallenge,
         onCorrect: () => {
           state = resolveChallenge(state, true);
+          soundManager.playMerge();
           render();
         },
         onIncorrect: () => {
           state = resolveChallenge(state, false);
+          soundManager.playGameOver();
         }
       });
     } else {
@@ -179,14 +191,24 @@ function initGame() {
 
   function handleMove(direction) {
     if (state.status === 'gameOver' || state.status === 'challenge') return;
-    state = applyMove(state, direction);
-    render();
+    const oldScore = state.score;
+    const nextState = applyMove(state, direction);
+    if (nextState !== state) {
+      if (nextState.score > oldScore) {
+        soundManager.playMerge();
+      } else {
+        soundManager.playMove();
+      }
+      state = nextState;
+      render();
+    }
   }
 
   function restart() {
     clearSession();
     state = createInitialState();
     scoreSubmittedForThisGame = false;
+    soundManager.playMove();
     render();
     router.show('board', 'home');
   }
@@ -218,7 +240,31 @@ function initGame() {
     // jogada.
     renderBoard(boardEl, state.board);
   });
-  backToHomeBtn.addEventListener('click', () => router.show('home'));
+  if (backToHomeBtn) {
+    backToHomeBtn.addEventListener('click', () => router.show('home'));
+  }
+
+  const audioToggleBtn = document.getElementById('audio-toggle-btn');
+  if (audioToggleBtn) {
+    audioToggleBtn.textContent = soundManager.isMuted ? '🔇' : '🔊';
+    audioToggleBtn.addEventListener('click', () => {
+      const isMuted = soundManager.toggleMute();
+      audioToggleBtn.textContent = isMuted ? '🔇' : '🔊';
+    });
+  }
+
+  function openTutorial() {
+    renderTutorialModal(tutorialModalEl, {
+      onClose: () => hideTutorialModal(tutorialModalEl)
+    });
+  }
+
+  if (homeTutorialBtn) {
+    homeTutorialBtn.addEventListener('click', openTutorial);
+  }
+  if (boardHelpBtn) {
+    boardHelpBtn.addEventListener('click', openTutorial);
+  }
 
   document.getElementById('nav-ranking').addEventListener('click', renderRankingScreen);
   document.getElementById('nav-perfil').addEventListener('click', renderPerfilScreen);

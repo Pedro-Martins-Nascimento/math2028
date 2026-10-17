@@ -15,6 +15,7 @@
     <header class="top-header">
       <span class="top-header__badge">MATH</span>
       <h1 class="top-header__title" data-i18n="hud.title">2048</h1>
+      <button id="audio-toggle-btn" class="btn-sound" title="Alternar som" aria-label="Alternar som">🔊</button>
       <div id="hud-user" class="top-header__user" hidden></div>
     </header>
 
@@ -36,7 +37,8 @@
         <p style="font-family:var(--font-display);font-weight:800;font-size:13px;margin:8px 0;">
           <span data-i18n="home.recordLabel">RECORDE:</span> <span id="home-record-value">0</span> PTS
         </p>
-        <button id="home-play-btn" class="btn btn--cyan" style="width:100%;">▶ <span data-i18n="home.btnPlay">Jogar</span></button>
+        <button id="home-play-btn" class="btn btn--cyan" style="width:100%;margin-bottom:8px;">▶ <span data-i18n="home.btnPlay">Jogar</span></button>
+        <button id="home-tutorial-btn" class="btn btn--ghost" style="width:100%;">📖 Como Jogar (Tutorial)</button>
       </div>
 
       <div class="neo-card footer">
@@ -48,8 +50,19 @@
     <section id="screen-board" class="screen" hidden>
       <div class="btn-row">
         <button id="back-to-home-btn" class="btn btn--ghost">◀ <span data-i18n="board.btnBack">Voltar</span></button>
+        <button id="board-help-btn" class="btn btn--ghost" title="Ajuda / Tutorial">❓ Ajuda</button>
         <button id="new-game-btn" class="btn btn--cyan">🔄 <span data-i18n="hud.btnNewGame">Novo jogo</span></button>
       </div>
+
+      <!-- Barra de Progresso entre Fases/Portais (Critério N2) -->
+      <div class="phases-bar-container">
+        <div class="phases-bar__header">
+          <span class="phases-bar__title">📍 PROGRESSÃO DE FASES</span>
+          <span class="phases-bar__desc">Portais Matemáticos</span>
+        </div>
+        <div id="board-phases" class="phases-bar"></div>
+      </div>
+
       <div id="board-hud" class="hud-stats">
         <div class="hud-stat hud-stat--score">
           <span class="hud-stat__label" data-i18n="hud.scoreLabel">Pontos</span>
@@ -85,6 +98,7 @@
   <div id="equation-modal" class="modal" hidden></div>
   <div id="game-over-modal" class="modal" hidden></div>
   <div id="win-modal" class="modal" hidden></div>
+  <div id="tutorial-modal" class="modal" hidden></div>
 
   <script src="cordova.js"></script>
   <script src="dist/bundle.js"></script>

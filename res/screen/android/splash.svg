@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="1080" height="1920">
+  <rect width="1080" height="1920" fill="#120726"/>
+  <circle cx="540" cy="800" r="320" fill="#2d1254" stroke="#05d9e8" stroke-width="12" opacity="0.6"/>
+  <!-- Card Central Neo-Brutalist -->
+  <rect x="240" y="600" width="600" height="400" rx="32" fill="#ff2a85" stroke="#000000" stroke-width="16"/>
+  <text x="540" y="750" font-family="Arial, sans-serif" font-size="64" font-weight="900" fill="#ffeb3b" text-anchor="middle">MATH</text>
+  <text x="540" y="880" font-family="Arial, sans-serif" font-size="110" font-weight="900" fill="#ffffff" text-anchor="middle">2048</text>
+  <text x="540" y="940" font-family="Arial, sans-serif" font-size="32" font-weight="700" fill="#120726" text-anchor="middle">ARCADE EDITION</text>
+  <!-- Rodapé -->
+  <text x="540" y="1700" font-family="Arial, sans-serif" font-size="28" font-weight="600" fill="#a594f9" text-anchor="middle">Carregando o desafio...</text>
+</svg>

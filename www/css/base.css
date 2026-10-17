@@ -97,6 +97,23 @@ body {
   flex: 1;
 }
 
+.btn-sound {
+  background: var(--color-surface-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: 2px 2px 0 #000;
+  font-size: 16px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: transform 0.05s ease;
+  line-height: 1;
+}
+
+.btn-sound:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
 .top-header__user {
   font-size: 12px;
   font-weight: 700;

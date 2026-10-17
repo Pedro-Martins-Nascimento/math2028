@@ -39,4 +39,48 @@ function renderHudRecord(recordEl, record) {
   recordEl.textContent = String(record);
 }
 
-module.exports = { FROZEN_CLASS, setHudFrozen, renderHudUser, renderHudRecord };
+/**
+ * Renderiza o progresso visual de fases/portais no HUD do jogo (16, 64, 256, 1024, 2048).
+ * Atende ao critério de 'Progressão entre fases' da N2.
+ * @param {HTMLElement} phasesContainerEl
+ * @param {number[][]} board
+ */
+function renderHudPhases(phasesContainerEl, board) {
+  if (!phasesContainerEl) return;
+
+  let maxTile = 0;
+  if (Array.isArray(board)) {
+    for (let r = 0; r < board.length; r++) {
+      for (let c = 0; c < board[r].length; c++) {
+        if (board[r][c] > maxTile) maxTile = board[r][c];
+      }
+    }
+  }
+
+  const milestones = [
+    { label: 'Fase 1', target: 16, icon: '🔓' },
+    { label: 'Fase 2', target: 64, icon: '⚡' },
+    { label: 'Fase 3', target: 256, icon: '🔮' },
+    { label: 'Fase 4', target: 1024, icon: '🔥' },
+    { label: 'Vitória', target: 2048, icon: '🏆' }
+  ];
+
+  phasesContainerEl.innerHTML = milestones.map((m) => {
+    const isDone = maxTile >= m.target;
+    const statusClass = isDone ? 'phase-node--done' : 'phase-node--pending';
+    return `
+      <div class="phase-node ${statusClass}" title="${m.label} (Bloco ${m.target})">
+        <span class="phase-node__icon">${isDone ? '✅' : m.icon}</span>
+        <span class="phase-node__target">${m.target}</span>
+      </div>
+    `;
+  }).join('<span class="phase-connector">➔</span>');
+}
+
+module.exports = {
+  FROZEN_CLASS,
+  setHudFrozen,
+  renderHudUser,
+  renderHudRecord,
+  renderHudPhases
+};

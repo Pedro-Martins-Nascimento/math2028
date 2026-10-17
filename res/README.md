@@ -1,29 +1,34 @@
-# Ícones e splash screen (Android)
+# Ícones e Splash Screen (Android)
 
-Esta pasta segue a convenção padrão do Cordova para recursos de plataforma
-(`res/icon/android/`, `res/screen/android/`), mas **ainda não contém os
-PNGs finais** — nenhum recurso de design (logo, splash) foi fornecido até
-o momento.
+Esta pasta armazena os recursos gráficos utilizados pelo Apache Cordova para gerar o aplicativo Android do **Math2048**.
 
-`config.xml` **não referencia nenhum arquivo aqui** propositalmente: uma
-referência a um PNG inexistente quebra `cordova build android` com um erro
-de arquivo não encontrado. Antes de gerar o build de produção (fora do
-escopo do M4, que cobre só o setup básico), adicione:
+---
 
-- `res/icon/android/`: ícones nas densidades padrão do Android
-  (`ldpi` 36x36, `mdpi` 48x48, `hdpi` 72x72, `xhdpi` 96x96, `xxhdpi` 144x144,
-  `xxxhdpi` 192x192)
-- `res/screen/android/`: splash screens (ver
-  [docs do cordova-android](https://cordova.apache.org/docs/en/latest/config_ref/images.html))
+## 🎨 Assets Vetoriais Disponíveis
 
-Depois de adicionar os PNGs, inclua em `config.xml` (dentro de
-`<platform name="android">`):
+Os assets mestres foram desenhados em formato vetorial SVG, seguindo o padrão de design **Arcade Neo-Brutalism**:
 
-```xml
-<icon density="ldpi" src="res/icon/android/ldpi.png" />
-<icon density="mdpi" src="res/icon/android/mdpi.png" />
-<icon density="hdpi" src="res/icon/android/hdpi.png" />
-<icon density="xhdpi" src="res/icon/android/xhdpi.png" />
-<icon density="xxhdpi" src="res/icon/android/xxhdpi.png" />
-<icon density="xxxhdpi" src="res/icon/android/xxxhdpi.png" />
-```
+- **Ícone Principal:** `res/icon/android/icon.svg` (fundo cósmico, borda ciano e badge "MATH 2048" de alto contraste).
+- **Splash Screen:** `res/screen/android/splash.svg` (tela de abertura temática com mensagem de carregamento).
+
+---
+
+## 📱 Gerando Densidades PNG para o Cordova
+
+Para o empacotamento completo do APK (`cordova build android`), o Android utiliza densidades específicas de tela. Caso deseje converter os SVGs para PNGs rasterizados:
+
+### Densidades de Ícone (`res/icon/android/`):
+- `ldpi.png`: 36 × 36 px
+- `mdpi.png`: 48 × 48 px
+- `hdpi.png`: 72 × 72 px
+- `xhdpi.png`: 96 × 96 px
+- `xxhdpi.png`: 144 × 144 px
+- `xxxhdpi.png`: 192 × 192 px
+
+### Densidades de Splash Screen (`res/screen/android/`):
+- `drawable-port-hdpi-screen.png`: 480 × 800 px
+- `drawable-port-xhdpi-screen.png`: 720 × 1280 px
+- `drawable-port-xxhdpi-screen.png`: 960 × 1600 px
+- `drawable-port-xxxhdpi-screen.png`: 1280 × 1920 px
+
+Após gerar os arquivos PNG, inclua o mapeamento correspondente dentro da tag `<platform name="android">` no arquivo `config.xml`.

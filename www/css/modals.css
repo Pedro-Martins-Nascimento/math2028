@@ -277,3 +277,180 @@
   border-radius: 8px;
   text-transform: uppercase;
 }
+
+/* ---------- Barra de Fases / Portais (Critério N2) ---------- */
+.phases-bar-container {
+  background: var(--color-surface-card);
+  border: 3px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 8px 12px;
+  margin-bottom: 2px;
+}
+
+.phases-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.phases-bar__title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-yellow);
+  letter-spacing: 0.05em;
+}
+
+.phases-bar__desc {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-lavender);
+}
+
+.phases-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.phase-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-color);
+  background: var(--color-slot-recessed);
+  transition: all 0.2s ease;
+  min-width: 44px;
+}
+
+.phase-node--done {
+  background: var(--color-green);
+  color: #0b2e1b;
+  border-color: #000;
+  box-shadow: 2px 2px 0 #000;
+  transform: scale(1.05);
+}
+
+.phase-node--pending {
+  opacity: 0.65;
+  color: #fff;
+}
+
+.phase-node__icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.phase-node__target {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+.phase-connector {
+  color: var(--color-text-lavender);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* ---------- Modal de Tutorial (Critério N2) ---------- */
+.tutorial-modal__card {
+  max-width: 420px;
+  text-align: left;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.tutorial-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.tutorial-step {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--color-slot-recessed);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px;
+}
+
+.tutorial-step__icon {
+  font-size: 24px;
+  background: var(--color-surface-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  line-height: 1;
+}
+
+.tutorial-step__info {
+  flex: 1;
+}
+
+.tutorial-step__title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-cyan);
+  margin: 0 0 4px;
+}
+
+.tutorial-step__text {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+  color: #f0edf9;
+}
+
+.tutorial-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid #000;
+  display: inline-block;
+}
+
+.chip--correct { background: #d4edda; color: #155724; }
+.chip--wrong { background: #f8d7da; color: #721c24; }
+
+.tutorial-phases {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.phase-pill {
+  background: var(--color-surface-card);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.phase-pill--win {
+  background: var(--color-yellow);
+  color: #000;
+  font-weight: 800;
+}
