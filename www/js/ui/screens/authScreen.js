@@ -20,20 +20,26 @@ function renderAuthScreen(screenEl, { onAuthenticated, onSkip }) {
   function draw() {
     const isSignup = mode === 'signup';
     screenEl.innerHTML = `
-      <div class="modal__card">
+      <div class="modal__card auth-card">
         <h2 class="modal__title">${isSignup ? t('auth.titleSignup') : t('auth.titleLogin')}</h2>
         <input id="auth-email" class="modal__input" type="email" placeholder="${t('auth.emailPlaceholder')}" autocomplete="email" />
         <input id="auth-password" class="modal__input" type="password" placeholder="${t('auth.passwordPlaceholder')}" autocomplete="${isSignup ? 'new-password' : 'current-password'}" />
         <p id="auth-error" class="modal__error" role="alert"></p>
-        <div class="modal__actions">
-          <button id="auth-submit" class="btn btn--secondary">${isSignup ? t('auth.btnSignup') : t('auth.btnLogin')}</button>
+        
+        <div class="auth-actions">
+          <button id="auth-submit" class="btn btn--cyan auth-btn-primary">${isSignup ? t('auth.btnSignup') : t('auth.btnLogin')}</button>
+          
+          <div class="auth-secondary-actions">
+            <button id="auth-toggle-mode" type="button" class="btn auth-btn-link">
+              ${isSignup ? t('auth.toggleToLogin') : t('auth.toggleToSignup')}
+            </button>
+            ${onSkip ? `
+              <button id="auth-skip" type="button" class="btn auth-btn-link auth-btn-skip">
+                ${t('auth.skip')}
+              </button>
+            ` : ''}
+          </div>
         </div>
-        <p class="modal__text">
-          <button id="auth-toggle-mode" class="btn" style="background:none;color:var(--color-primary);text-decoration:underline;">
-            ${isSignup ? t('auth.toggleToLogin') : t('auth.toggleToSignup')}
-          </button>
-        </p>
-        ${onSkip ? `<p class="modal__text"><button id="auth-skip" class="btn" style="background:none;color:var(--color-primary);text-decoration:underline;">${t('auth.skip')}</button></p>` : ''}
       </div>
     `;
     screenEl.hidden = false;

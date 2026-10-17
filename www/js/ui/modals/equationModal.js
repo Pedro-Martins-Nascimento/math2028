@@ -63,6 +63,9 @@ function renderEquationModal(modalEl, { equation, trigger, onCorrect, onIncorrec
   const clearEl = modalEl.querySelector('#equation-clear');
 
   function submit() {
+    if (inputEl) {
+      inputEl.blur(); // Garante que o teclado virtual do celular seja recolhido
+    }
     const isCorrect = validateAnswer(equation, inputEl.value);
     if (isCorrect) {
       errorEl.textContent = '';
@@ -71,33 +74,39 @@ function renderEquationModal(modalEl, { equation, trigger, onCorrect, onIncorrec
     } else {
       errorEl.textContent = t('equation.errorWrong');
       inputEl.value = '';
-      inputEl.focus();
       onIncorrect();
     }
   }
 
   submitEl.addEventListener('click', submit);
   inputEl.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') submit();
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      submit();
+    }
   });
 
   modalEl.querySelectorAll('.modal__keypad-key[data-digit]').forEach((key) => {
     key.addEventListener('click', () => {
       if (inputEl.value.length >= MAX_ANSWER_LENGTH) return;
       inputEl.value += key.dataset.digit;
-      inputEl.focus();
+      // Não chama inputEl.focus() aqui para evitar que o teclado nativo do Android volte a abrir
     });
   });
 
   clearEl.addEventListener('click', () => {
     inputEl.value = '';
-    inputEl.focus();
   });
-
-  inputEl.focus();
 }
 
 function hideEquationModal(modalEl) {
+  const activeInput = modalEl.querySelector('#equation-answer-input');
+  if (activeInput) {
+    activeInput.blur();
+  }
+  if (document.activeElement && typeof document.activeElement.blur === 'function') {
+    document.activeElement.blur();
+  }
   modalEl.hidden = true;
 }
 
