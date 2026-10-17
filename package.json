@@ -12,7 +12,7 @@
     "build:web": "esbuild www/js/main.js --bundle --target=es2018 --outfile=www/dist/bundle.js --format=iife",
     "build:web:prod": "esbuild www/js/main.js --bundle --target=es2018 --minify --outfile=www/dist/bundle.js --format=iife",
     "watch:web": "npm run build:web -- --watch",
-    "start": "npm run build:web && serve www -l tcp://127.0.0.1:5173"
+    "start": "npm run build:web && npx --no-install serve www -l tcp://127.0.0.1:5173"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
