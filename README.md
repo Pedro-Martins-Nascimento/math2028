@@ -19,13 +19,29 @@
 
 ---
 
-## ⚡ Como Rodar Localmente (Rápido)
+## ⚡ Como Rodar Localmente (Passo a Passo)
 
+### 1. Clonar e Instalar Dependências
 ```bash
-# 1. Instale as dependências
+git clone https://github.com/Pedro-Martins-Nascimento/math2028.git
+cd math2028
 npm install
+```
 
-# 2. Inicie o servidor local de desenvolvimento
+### 2. Configurar o Supabase (Autenticação e Ranking)
+Por diretrizes de segurança (M3-01 / M3-05), o arquivo com as credenciais não fica no repositório público.
+1. Crie o arquivo **`www/js/config/supabaseConfig.js`** (você pode copiar o modelo de `www/js/config/supabaseConfig.example.js`).
+2. Cole as credenciais compartilhadas pela equipe (ex.: via **Bitwarden Send** ou cofre seguro):
+```javascript
+module.exports = {
+  SUPABASE_URL: 'https://rkazsvqaceqzbcjxhrwl.supabase.co',
+  SUPABASE_ANON_KEY: 'SUA_ANON_KEY_RECEBIDA_VIA_BITWARDEN'
+};
+```
+> 💡 *Nota: Se você rodar sem criar esse arquivo, o jogo funcionará normalmente no modo **"Jogar sem conta" (offline)**, apenas sem sincronização do ranking na nuvem.*
+
+### 3. Iniciar o Servidor
+```bash
 npm start
 ```
 
