@@ -9,9 +9,13 @@ const { isTriggerBlock } = require('../gatekeeper/equationBank');
 
 const WIN_VALUE = 2048;
 
-// Valor 2 tem 90% de chance, valor 4 tem 10% — regra clássica do 2048.
-function randomTileValue() {
-  return Math.random() < 0.9 ? 2 : 4;
+// Regra clássica adaptativa:
+// Inicialmente: 90% bloco 2, 10% bloco 4.
+// Conforme a pontuação sobe (> 300), a chance de bloco 4 sobe para 25%,
+// aumentando a pressão no tabuleiro e tornando o jogo muito mais desafiador.
+function randomTileValue(score = 0) {
+  const chanceOfFour = score > 300 ? 0.25 : 0.10;
+  return Math.random() < (1 - chanceOfFour) ? 2 : 4;
 }
 
 /**
@@ -37,15 +41,16 @@ function createInitialState() {
  * Gera um novo bloco (2 ou 4) em uma célula vazia aleatória.
  * Não faz nada se o tabuleiro estiver cheio.
  * @param {number[][]} board
+ * @param {number} [score=0]
  * @returns {number[][]} novo tabuleiro com o bloco adicionado (não muta o original).
  */
-function spawnRandomTile(board) {
+function spawnRandomTile(board, score = 0) {
   const emptyCells = getEmptyCells(board);
   if (emptyCells.length === 0) return cloneBoard(board);
 
   const { row, col } = emptyCells[Math.floor(Math.random() * emptyCells.length)];
   const next = cloneBoard(board);
-  next[row][col] = randomTileValue();
+  next[row][col] = randomTileValue(score);
   return next;
 }
 
@@ -95,8 +100,8 @@ function applyMove(state, direction) {
     return state;
   }
 
-  const boardWithNewTile = spawnRandomTile(movedBoard);
   const newScore = state.score + gained;
+  const boardWithNewTile = spawnRandomTile(movedBoard, newScore);
 
   const triggeredValue = mergedValues.find((value) => isTriggerBlock(value));
   // Limitação conhecida: se uma única jogada formar mais de um bloco
@@ -127,7 +132,9 @@ function applyMove(state, direction) {
 /**
  * Resolve um desafio do gatekeeper em aberto. Em caso de resposta correta,
  * destrava o tabuleiro e recalcula o status normalmente (won/gameOver/playing).
- * Em caso de resposta incorreta, mantém o tabuleiro congelado em 'challenge'.
+ * Em caso de resposta incorreta, aplica uma penalidade gerando um bloco extra
+ * de obstáculo no tabuleiro (aumentando a chance de game over) e mantém em 'challenge'.
+ * Se a penalidade lotar o tabuleiro e não houver mais movimentos, leva a 'gameOver'.
  * @param {object} state
  * @param {boolean} wasCorrect
  * @returns {object} novo estado.
@@ -136,7 +143,14 @@ function resolveChallenge(state, wasCorrect) {
   if (state.status !== 'challenge') return state;
 
   if (!wasCorrect) {
-    return state;
+    // Penalidade pedagógica: errar a equação gera um bloco no tabuleiro
+    const boardWithPenalty = spawnRandomTile(state.board, state.score);
+    const hasMoves = hasValidMove(boardWithPenalty);
+    return {
+      ...state,
+      board: boardWithPenalty,
+      status: hasMoves ? 'challenge' : 'gameOver'
+    };
   }
 
   return {
