@@ -27,7 +27,8 @@ esbuild.build({
   format: 'iife',
   define: {
     'process.env.SUPABASE_URL': JSON.stringify(supabaseUrl),
-    'process.env.SUPABASE_ANON_KEY': JSON.stringify(supabaseAnonKey)
+    'process.env.SUPABASE_ANON_KEY': JSON.stringify(supabaseAnonKey),
+    'process.env': '{}'
   }
 }).then(() => {
   console.log('Build prod concluído com sucesso!');

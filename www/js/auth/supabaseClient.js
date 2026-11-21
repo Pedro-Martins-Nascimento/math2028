@@ -14,20 +14,18 @@ let cachedClient = null;
 
 /**
  * Carrega a config do Supabase.
- * Tenta ler primeiro das variáveis de ambiente (process.env injetadas no build pelo esbuild),
+ * Lê primeiro das variáveis estáticas (definidas em build pelo esbuild),
  * e depois faz fallback para o arquivo local (supabaseConfig.js).
  * @returns {{SUPABASE_URL: string, SUPABASE_ANON_KEY: string}|null}
  */
 function loadConfig() {
-  if (
-    typeof process !== 'undefined' &&
-    process.env &&
-    process.env.SUPABASE_URL &&
-    process.env.SUPABASE_ANON_KEY
-  ) {
+  const envUrl = typeof process !== 'undefined' && process.env ? process.env.SUPABASE_URL : '';
+  const envKey = typeof process !== 'undefined' && process.env ? process.env.SUPABASE_ANON_KEY : '';
+
+  if (envUrl && envKey) {
     return {
-      SUPABASE_URL: process.env.SUPABASE_URL,
-      SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY
+      SUPABASE_URL: envUrl,
+      SUPABASE_ANON_KEY: envKey
     };
   }
 
