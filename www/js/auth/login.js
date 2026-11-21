@@ -31,7 +31,7 @@ async function login(email, password) {
     return { user: data.user, error: null };
   } catch (error) {
     console.error('Erro detalhado no login:', error);
-    return { user: null, error: 'Não foi possível entrar. Verifique sua conexão e tente novamente.' };
+    return { user: null, error: `Não foi possível entrar. Detalhe da conexão: ${error?.message || error}` };
   }
 }
 

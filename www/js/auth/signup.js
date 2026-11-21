@@ -32,7 +32,8 @@ async function signup(email, password) {
 
     return { user: data.user, error: null };
   } catch (error) {
-    return { user: null, error: 'Não foi possível concluir o cadastro. Tente novamente.' };
+    console.error('Erro detalhado no signup:', error);
+    return { user: null, error: `Não foi possível concluir o cadastro: ${error?.message || error}` };
   }
 }
 
