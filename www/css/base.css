@@ -132,18 +132,24 @@ body {
 }
 
 #screen-login,
-#screen-ranking,
 #screen-perfil {
   align-items: center;
   justify-content: center;
   padding-bottom: var(--spacing-md);
 }
 
+#screen-ranking {
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: var(--spacing-md);
+  padding-bottom: 96px;
+}
+
 #screen-ranking .modal__card,
 #screen-perfil .modal__card {
   width: 100%;
   max-width: 440px;
-  margin: auto;
+  margin: 0;
 }
 
 .screen[hidden] {
