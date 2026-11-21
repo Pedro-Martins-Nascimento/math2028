@@ -12,20 +12,19 @@ const { createClient } = require('@supabase/supabase-js');
 
 let cachedClient = null;
 
+// Constantes de compilação substituídas diretamente pelo esbuild
+const BUILD_SUPABASE_URL = process.env.SUPABASE_URL || '';
+const BUILD_SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || '';
+
 /**
  * Carrega a config do Supabase.
- * Lê primeiro das variáveis estáticas (definidas em build pelo esbuild),
- * e depois faz fallback para o arquivo local (supabaseConfig.js).
  * @returns {{SUPABASE_URL: string, SUPABASE_ANON_KEY: string}|null}
  */
 function loadConfig() {
-  const envUrl = typeof process !== 'undefined' && process.env ? process.env.SUPABASE_URL : '';
-  const envKey = typeof process !== 'undefined' && process.env ? process.env.SUPABASE_ANON_KEY : '';
-
-  if (envUrl && envKey) {
+  if (BUILD_SUPABASE_URL && BUILD_SUPABASE_ANON_KEY) {
     return {
-      SUPABASE_URL: envUrl,
-      SUPABASE_ANON_KEY: envKey
+      SUPABASE_URL: BUILD_SUPABASE_URL,
+      SUPABASE_ANON_KEY: BUILD_SUPABASE_ANON_KEY
     };
   }
 
