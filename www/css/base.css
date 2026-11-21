@@ -131,10 +131,19 @@ body {
   overflow-y: auto;
 }
 
-#screen-login {
+#screen-login,
+#screen-ranking,
+#screen-perfil {
   align-items: center;
   justify-content: center;
   padding-bottom: var(--spacing-md);
+}
+
+#screen-ranking .modal__card,
+#screen-perfil .modal__card {
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
 }
 
 .screen[hidden] {
