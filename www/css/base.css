@@ -131,6 +131,12 @@ body {
   overflow-y: auto;
 }
 
+#screen-login {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: var(--spacing-md);
+}
+
 .screen[hidden] {
   display: none;
 }

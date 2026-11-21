@@ -458,6 +458,7 @@
 /* ---------- Estilização e espaçamento da tela de Autenticação ---------- */
 .auth-card {
   padding: 32px 24px;
+  margin: 0 auto;
 }
 
 .auth-actions {
