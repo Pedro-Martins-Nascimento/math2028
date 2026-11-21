@@ -9,8 +9,8 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint \"www/js/**/*.js\"",
     "lint:fix": "eslint \"www/js/**/*.js\" --fix",
-    "build:web": "esbuild www/js/main.js --bundle --target=es2018 --outfile=www/dist/bundle.js --format=iife",
-    "build:web:prod": "esbuild www/js/main.js --bundle --target=es2018 --minify --outfile=www/dist/bundle.js --format=iife",
+    "build:web": "esbuild www/js/main.js --bundle --target=es2018 --outfile=www/dist/bundle.js --format=iife --define:process.env.SUPABASE_URL=\\\"${SUPABASE_URL:-}\\\" --define:process.env.SUPABASE_ANON_KEY=\\\"${SUPABASE_ANON_KEY:-}\\\"",
+    "build:web:prod": "node ./scripts/build.js",
     "watch:web": "npm run build:web -- --watch",
     "start": "npm run build:web && npx --no-install serve www -l tcp://127.0.0.1:5173"
   },

@@ -8,3 +8,5 @@ www/js/config/secrets.js
 *.log
 .DS_Store
 dist/
+
+.vercel

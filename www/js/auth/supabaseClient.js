@@ -13,12 +13,24 @@ const { createClient } = require('@supabase/supabase-js');
 let cachedClient = null;
 
 /**
- * Carrega a config do Supabase. Retorna null se o arquivo local
- * (supabaseConfig.js, gitignored) ainda não foi criado a partir do
- * supabaseConfig.example.js.
+ * Carrega a config do Supabase.
+ * Tenta ler primeiro das variáveis de ambiente (process.env injetadas no build pelo esbuild),
+ * e depois faz fallback para o arquivo local (supabaseConfig.js).
  * @returns {{SUPABASE_URL: string, SUPABASE_ANON_KEY: string}|null}
  */
 function loadConfig() {
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    process.env.SUPABASE_URL &&
+    process.env.SUPABASE_ANON_KEY
+  ) {
+    return {
+      SUPABASE_URL: process.env.SUPABASE_URL,
+      SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY
+    };
+  }
+
   try {
     // eslint-disable-next-line global-require
     return require('../config/supabaseConfig');
