@@ -120,6 +120,49 @@ describe('gameState - fluxo do gatekeeper (bloqueio do tabuleiro)', () => {
     expect(next.pendingChallenge).toBeNull();
   });
 
+  test('preserva a contagem de equações resolvidas nas jogadas seguintes', () => {
+    const challengeState = {
+      board: boardFrom([
+        [16, 2, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ]),
+      score: 16,
+      status: 'challenge',
+      infiniteMode: false,
+      pendingChallenge: 16,
+      equationsSolved: 0
+    };
+
+    const afterAnswer = resolveChallenge(challengeState, true);
+    const afterNextMove = applyMove(afterAnswer, DIRECTIONS.RIGHT);
+
+    expect(afterAnswer.equationsSolved).toBe(1);
+    expect(afterNextMove.equationsSolved).toBe(1);
+  });
+
+  test('preserva a contagem ao iniciar outro desafio', () => {
+    const state = {
+      board: boardFrom([
+        [8, 8, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ]),
+      score: 16,
+      status: 'playing',
+      infiniteMode: false,
+      pendingChallenge: null,
+      equationsSolved: 1
+    };
+
+    const next = applyMove(state, DIRECTIONS.LEFT);
+
+    expect(next.status).toBe('challenge');
+    expect(next.equationsSolved).toBe(1);
+  });
+
   test('resolveChallenge com resposta incorreta mantém o desafio travado', () => {
     const challengeState = {
       board: boardFrom([[16, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]),

@@ -116,7 +116,8 @@ function applyMove(state, direction) {
       score: newScore,
       status: 'challenge',
       infiniteMode: state.infiniteMode,
-      pendingChallenge: triggeredValue
+      pendingChallenge: triggeredValue,
+      equationsSolved: state.equationsSolved || 0
     };
   }
 
@@ -125,7 +126,8 @@ function applyMove(state, direction) {
     score: newScore,
     status: computeStatus(boardWithNewTile, state.infiniteMode),
     infiniteMode: state.infiniteMode,
-    pendingChallenge: null
+    pendingChallenge: null,
+    equationsSolved: state.equationsSolved || 0
   };
 }
 
