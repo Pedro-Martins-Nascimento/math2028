@@ -1,5 +1,5 @@
 /**
- * Consulta do ranking global (Top 10) na tabela `scores`.
+ * Consulta o Top 10 global de melhores pontuações por jogador.
  */
 
 const { getSupabaseClient } = require('../auth/supabaseClient');
@@ -14,7 +14,7 @@ async function getTopScores() {
   try {
     const supabase = getSupabaseClient();
     const { data, error } = await supabase
-      .from('scores')
+      .from('leaderboard_best_scores')
       .select('username, score')
       .order('score', { ascending: false })
       .limit(LEADERBOARD_LIMIT);

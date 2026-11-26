@@ -19,6 +19,8 @@ create table if not exists public.scores (
 );
 
 create index if not exists scores_score_desc_idx on public.scores (score desc);
+create index if not exists scores_user_best_idx
+  on public.scores (user_id, score desc, created_at desc, id desc);
 
 alter table public.scores enable row level security;
 
@@ -31,6 +33,16 @@ create policy "scores_select_public"
 create policy "scores_insert_own"
   on public.scores for insert
   with check (auth.uid() = user_id);
+
+-- O ranking mostra apenas a melhor pontuação de cada jogador.
+create or replace view public.leaderboard_best_scores as
+select distinct on (user_id)
+  username,
+  score
+from public.scores
+order by user_id, score desc, created_at desc, id desc;
+
+grant select on public.leaderboard_best_scores to anon, authenticated;
 
 -- Ninguém pode alterar ou apagar pontuações já enviadas (evita adulteração
 -- posterior de um score já registrado).

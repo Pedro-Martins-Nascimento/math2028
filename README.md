@@ -71,7 +71,7 @@ O comando irá empacotar o bundle (`bundle.js`) e abrir o servidor em:
 
 4. **Nuvem & Ranking Global (Supabase):**
    - Autenticação completa (Cadastro, Login e Logout).
-   - Gravação de recordes e consulta ao **Top 10 Global** em tempo real.
+   - Consulta ao **Top 10 Global**, com apenas a melhor pontuação de cada jogador; um novo recorde substitui a posição anterior.
    - Modo convidado ("Jogar sem conta") com degradação graciosa caso esteja offline.
 
 5. **Design Arcade Neo-Brutalism:**

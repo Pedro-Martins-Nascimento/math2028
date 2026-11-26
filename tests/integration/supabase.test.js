@@ -194,6 +194,7 @@ describe('scoreService/leaderboardQuery - integração com mock do Supabase', ()
 
     const { entries, error } = await getTopScores();
 
+    expect(client.from).toHaveBeenCalledWith('leaderboard_best_scores');
     expect(error).toBeNull();
     expect(entries).toEqual(rows);
   });
